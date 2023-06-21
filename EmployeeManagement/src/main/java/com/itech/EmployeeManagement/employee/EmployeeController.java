@@ -30,21 +30,6 @@ public class EmployeeController {
         return "index";
     }
 
-
-
-
-
-//    @GetMapping("/add-employee")
-//    String iEmployees(){
-//        return "add-employee";
-//    }
-//
-//    @PostMapping("/save-employee")
-//    String addEmployees(@ModelAttribute Employee employee){
-//        employeeService.addNewEmployee(employee);
-//        return "add-employee";
-//    }
-
     @GetMapping("/add-employee")
     public ModelAndView iEmployees()
     {
