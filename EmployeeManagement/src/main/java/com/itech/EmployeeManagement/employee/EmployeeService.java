@@ -33,4 +33,40 @@ public class EmployeeService {
         }
         employeeRepository.saveAndFlush(employee);
     }
+
+    public void deleteEmployee(Long employeeId)
+    {
+        boolean exists = employeeRepository.existsById(employeeId);
+        if (!exists)
+        {
+            throw new IllegalStateException("Employee with ID " + employeeId + "does not Exist");
+        }
+        else employeeRepository.deleteById(employeeId);
+    }
+
+    public void searchEmployee(String name, String surname)
+    {
+        List<Employee> searchEmployee = employeeRepository.findByNameAndSurname
+                (name, surname
+        );
+
+        if (searchEmployee.isEmpty())
+        {
+            System.out.println("No user found with Matching name and surname");
+        }
+        else employeeRepository.findByNameAndSurname(name, surname);
+        System.out.println("Employee Surname ): " + surname);
+
+        for (int i = 0; i < searchEmployee.size(); i++) {
+            System.out.println("Employee: " + i);
+        }
+
+    }
+
+
+    public List<Employee> searchEmployeeByNameAndSurname(String name, String surname)
+    {
+        System.out.println(name);
+        return employeeRepository.findByNameAndSurname(name, surname);
+    }
 }

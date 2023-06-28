@@ -266,7 +266,7 @@
                         </ul>
                         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">iTech Force</div>
                         <ul class="pcoded-item pcoded-left-item">
-                            <li class="pcoded-hasmenu pcoded-trigger">
+                            <li class="pcoded-hasmenu pcoded-trigger active">
                                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                                     <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
                                     <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">iTech Force</span>
@@ -281,7 +281,7 @@
                                         </a>
                                     </li>
 
-                                    <li class="">
+                                    <li class="active">
                                         <a href="manage-techies" class="waves-effect waves-dark">
                                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                             <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Manage iTechies</span>
@@ -302,7 +302,7 @@
 
                         <div class="pcoded-navigation-label" data-i18n="nav.category.forms">iTech Play Grounds</div>
                         <ul class="pcoded-item pcoded-left-item">
-                            <li class="pcoded-hasmenu  active">
+                            <li class="pcoded-hasmenu ">
                                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                                     <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
                                     <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Projects</span>
@@ -316,7 +316,7 @@
                                             <span class="pcoded-mcaret"></span>
                                         </a>
                                     </li>
-                                    <li class="active">
+                                    <li class=" ">
                                         <a href="project-overview" class="waves-effect waves-dark">
                                             <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                             <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Manage iTech Projects</span>
@@ -384,19 +384,20 @@
                                                             <div class="card quater-card">
                                                                 <div class="card-block">
                                                                     <h4 class="sub-title">Search Employee</h4>
-                                                                    <form class="form-material">
+                                                                    <form th:action="@{/find-employee/}" method="GET"
+                                                                          class="form-material">
                                                                         <div class="form-group form-primary form-static-label row">
                                                                             <div class="mt-3 col-sm-12">
-                                                                                <input type="text" class="form-control"
-                                                                                       placeholder="John">
+                                                                                <input type="text" class="form-control" name="name"
+                                                                                       placeholder="John" required>
                                                                                 <span class="form-bar"></span>
                                                                                 <label class="float-label">&emsp;&ensp;Employee Name</label>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group form-primary form-static-label row">
                                                                             <div class="mt-3 col-sm-12">
-                                                                                <input type="text" class="form-control"
-                                                                                       placeholder="Doe">
+                                                                                <input type="text" class="form-control" name="surname"
+                                                                                       placeholder="Doe" required>
                                                                                 <span class="form-bar"></span>
                                                                                 <label class="float-label">&emsp;&ensp;Employee Surname</label>
                                                                             </div>
@@ -405,7 +406,7 @@
                                                                             <div class="col-md-12">
                                                                                 <!-- Block level buttons with icon -->
                                                                                 <div class="form-group">
-                                                                                    <button class="btn waves-effect waves-light btn-primary btn-outline-primary btn-block"><b>Search</b></button>
+                                                                                    <button type="submit" class="btn waves-effect waves-light btn-primary btn-outline-primary btn-block"><b>Search</b></button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -460,56 +461,99 @@
                                                                 <div class="tab-content card-block">
                                                                     <div class="tab-pane active" id="home7" role="tabpanel">
                                                                         <h4 class="m-2 mt-3 sub-title">About Employee</h4>
-                                                                        <p class="m-2">1.asdas This is Photoshop's version of Lorem IpThis is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean mas Cum sociis natoque penatibus et magnis dis.....</p>
+                                                                        <p class="m-4" th:name="summary" th:text="${summary}"></p>
 
                                                                         <h4 class="m-2 mt-4 sub-title">Profile Details</h4>
                                                                         <div class="form-group form-primary form-static-label row">
-                                                                            <div class="m-2 mt-3 col-sm-12">
+                                                                            <div class="m-2 col-lg-5 col-md-4">
                                                                                 <span class="form-bar"></span>
-                                                                                <dt class="col-sm-3">Name</dt>
+                                                                                <dt class="col-sm-3"></dt>
+                                                                                <dd></dd>
+                                                                            </div>
+                                                                            <div class="col-lg-6 col-md-4">
+                                                                                <span class="form-bar"></span>
+                                                                                <dt class="col-sm-3"></dt>
                                                                                 <dd></dd>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group form-primary form-static-label row">
-                                                                            <div class="m-2 mt-3 col-sm-12">
-                                                                                <span class="form-bar"></span>
-                                                                                <dt class="col-sm-3">Surname</dt>
-                                                                                <dd></dd>
+                                                                            <div class="m-2 col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8">
+                                                                                    <b>Employee Name</b>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8" th:name="name" th:text="${name}"></div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group form-primary form-static-label row">
-                                                                            <div class="m-2 mt-3 col-sm-12">
-                                                                                <span class="form-bar"></span>
-                                                                                <dt class="col-sm-3">Occupation</dt>
-                                                                                <dd></dd>
+                                                                            <div class="m-2 col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8">
+                                                                                    <b>Employee Surname</b>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8" th:name="surname" th:text="${surname}"></div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group form-primary form-static-label row">
-                                                                            <div class="m-2 mt-3 col-sm-12">
-                                                                                <span class="form-bar"></span>
-                                                                                <dt class="col-sm-3">Ethnicity</dt>
-                                                                                <dd></dd>
+                                                                            <div class="m-2 col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8">
+                                                                                    <b>Occupation</b>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8" th:name="occupation" th:text="${occupation}"></div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group form-primary form-static-label row">
-                                                                            <div class="m-2 mt-3 col-sm-12">
-                                                                                <span class="form-bar"></span>
-                                                                                <dt class="col-sm-3">Address</dt>
-                                                                                <dd></dd>
+                                                                            <div class="m-2 col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8">
+                                                                                    <b>Years of Experience</b>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8" th:name="years_experience" th:text="${years_experience}"></div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group form-primary form-static-label row">
-                                                                            <div class="m-2 mt-3 col-sm-12">
-                                                                                <span class="form-bar"></span>
-                                                                                <dt class="col-sm-3">Phone</dt>
-                                                                                <dd></dd>
+                                                                            <div class="m-2 col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8">
+                                                                                    <b>Ethnicity</b>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8" th:name="ethnicity" th:text="${ethnicity}"></div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group form-primary form-static-label row">
-                                                                            <div class="m-2 mt-3 col-sm-12">
-                                                                                <span class="form-bar"></span>
-                                                                                <dt class="col-sm-3">Email</dt>
-                                                                                <dd></dd>
+                                                                            <div class="m-2 col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8">
+                                                                                    <b>Address</b>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8" th:name="address" th:text="${address}"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group form-primary form-static-label row">
+                                                                            <div class="m-2 col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8">
+                                                                                    <b>Phone Number</b>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8" th:name="number" th:text="${number}"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group form-primary form-static-label row">
+                                                                            <div class="m-2 col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8">
+                                                                                    <b>Email Address</b>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-5 col-md-4">
+                                                                                <div class="col-sm-8" th:name="email" th:text="${email}"></div>
                                                                             </div>
                                                                         </div>
                                                                         <h4 class="m-2 mt-4 sub-title"></h4>
@@ -523,13 +567,13 @@
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="John">
+                                                                                           placeholder="John" th:value="${name}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Employee Name</label>
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="Doe">
+                                                                                           placeholder="Doe" th:value="${surname}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Employee Surname</label>
                                                                                 </div>
@@ -537,13 +581,13 @@
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="john.doe@gmail">
+                                                                                           placeholder="john.doe@gmail" th:value="${email}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Email</label>
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="Number" class="form-control"
-                                                                                           placeholder="0781234567">
+                                                                                           placeholder="0781234567" th:value="${number}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Phone Number</label>
                                                                                 </div>
@@ -553,7 +597,7 @@
                                                                                     <select
                                                                                             class="selectpicker form-control"
                                                                                             data-style="btn-outline-primary"
-                                                                                            data-size="5"
+                                                                                            data-size="5" th:value="${occupation}"
                                                                                             name="ethnicity">
 
                                                                                         <option></option>
@@ -568,21 +612,30 @@
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="Number" class="form-control"
-                                                                                           placeholder="1">
+                                                                                           placeholder="1" th:value="${years_experience}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Years of Experience</label>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group form-primary form-static-label row">
+                                                                                <div class="m-3 mt-2 col-sm-10">
+                                                                                    <textarea  class="mt-3 form-control"
+                                                                                              placeholder="Awesomeness and Creativity are in my DNA"
+                                                                                               th:text="${summary}"></textarea>
+                                                                                    <span class="form-bar"></span>
+                                                                                    <label class="float-label">&emsp;&ensp;Employee Summary</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="Cape Town">
+                                                                                           placeholder="Cape Town" th:value="${city}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;City</label>
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="Durbanville">
+                                                                                           placeholder="Durbanville" th:value="${suburb}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Suburb</label>
                                                                                 </div>
@@ -590,13 +643,13 @@
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="123 Nowhere Street">
+                                                                                           placeholder="123 Nowhere Street" th:value="${address}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Address</label>
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="Number" class="form-control"
-                                                                                           placeholder="8001">
+                                                                                           placeholder="8001" th:value="${zip_code}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Zip Code</label>
                                                                                 </div>
@@ -662,7 +715,7 @@
 
                                                                     <div class="tab-pane" id="settings7" role="tabpanel">
                                                                         <h4 class="m-2 mt-4 sub-title">Remove Employee Profile</h4>
-                                                                        <form>
+                                                                        <form th:action="@{/delete-employee/employeeId=${employee}}" th:object="${employee}" method="GET">
                                                                             <div class="m-2 row mb-3">
                                                                                 <label class="col-md-4 col-lg-3 col-form-label">Delete Employee Profile</label>
                                                                                 <div class="col-md-8 col-lg-9">
