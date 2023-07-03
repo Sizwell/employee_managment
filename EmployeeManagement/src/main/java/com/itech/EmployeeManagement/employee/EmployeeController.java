@@ -64,7 +64,7 @@ public class EmployeeController {
         return "manage-techies";
     }
 
-    @GetMapping("/find-employee/")
+    @GetMapping("/find-employee")
     public String findEmployee(@RequestParam("name") String name,
                                @RequestParam("surname") String surname,
                                Model model)
@@ -91,12 +91,11 @@ public class EmployeeController {
         return "manage-techies";
     }
 
-    @GetMapping("employee-profile")
+    @GetMapping("/employee-profile")
     public String profile()
     {
         return "manage-techies";
     }
-
 
     @GetMapping("/all-techies")
     public String allTechies(){
