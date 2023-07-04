@@ -384,12 +384,12 @@
                                                             <div class="card quater-card">
                                                                 <div class="card-block">
                                                                     <h4 class="sub-title">Search Employee</h4>
-                                                                    <form th:action="@{/find-employee/}" method="GET"
+                                                                    <form th:action="@{/find-employee}" method="GET"
                                                                           class="form-material">
                                                                         <div class="form-group form-primary form-static-label row">
                                                                             <div class="mt-3 col-sm-12">
                                                                                 <input type="text" class="form-control" name="name"
-                                                                                       placeholder="John" required>
+                                                                                       placeholder="John">
                                                                                 <span class="form-bar"></span>
                                                                                 <label class="float-label">&emsp;&ensp;Employee Name</label>
                                                                             </div>
@@ -397,7 +397,7 @@
                                                                         <div class="form-group form-primary form-static-label row">
                                                                             <div class="mt-3 col-sm-12">
                                                                                 <input type="text" class="form-control" name="surname"
-                                                                                       placeholder="Doe" required>
+                                                                                       placeholder="Doe">
                                                                                 <span class="form-bar"></span>
                                                                                 <label class="float-label">&emsp;&ensp;Employee Surname</label>
                                                                             </div>
@@ -563,17 +563,24 @@
                                                                     <div class="tab-pane" id="profile7" role="tabpanel">
                                                                         <h4 class="m-2 mt-4 sub-title">Modify Profile Details</h4>
 
-                                                                        <form class="form-material">
+                                                                        <form th:action="@{/find-employee/{id}/update-techie(id=${Id})}"
+                                                                              method="POST"
+                                                                              class="form-material">
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="John" th:value="${name}">
+                                                                                           placeholder="John"
+                                                                                           required name="name"
+                                                                                           th:value="${name}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Employee Name</label>
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="Doe" th:value="${surname}">
+                                                                                           placeholder="Doe"
+                                                                                           name="surname"
+                                                                                           required
+                                                                                           th:value="${surname}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Employee Surname</label>
                                                                                 </div>
@@ -581,38 +588,44 @@
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="john.doe@gmail" th:value="${email}">
+                                                                                           placeholder="john.doe@gmail"
+                                                                                           required
+                                                                                           name="email"
+                                                                                           th:value="${email}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Email</label>
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="Number" class="form-control"
-                                                                                           placeholder="0781234567" th:value="${number}">
+                                                                                           required
+                                                                                           placeholder="0781234567"
+                                                                                           name="number"
+                                                                                           oninput="javascript: if (
+                                                                                               this.value.length > this.maxLength)
+                                                                                               this.value = this.value.slice
+                                                                                               (0, this.maxLength);"
+                                                                                           maxlength="10"
+                                                                                           th:value="${number}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Phone Number</label>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-5">
-                                                                                    <select
-                                                                                            class="selectpicker form-control"
-                                                                                            data-style="btn-outline-primary"
-                                                                                            data-size="5" th:value="${occupation}"
-                                                                                            name="ethnicity">
-
-                                                                                        <option></option>
-                                                                                        <option>Developer</option>
-                                                                                        <option>QA Engineer</option>
-                                                                                        <option>QA Analyst</option>
-                                                                                        <option>DevOps Engineer</option>
-                                                                                        <option>Business Analyst</option>
-                                                                                    </select>
+                                                                                    <input type="text" class="form-control"
+                                                                                           placeholder="Interior Designer"
+                                                                                           required
+                                                                                           name="occupation"
+                                                                                           th:value="${occupation}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Occupation</label>
+
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="Number" class="form-control"
-                                                                                           placeholder="1" th:value="${years_experience}">
+                                                                                           placeholder="1 required"
+                                                                                           name="experience"
+                                                                                           th:value="${years_experience}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Years of Experience</label>
                                                                                 </div>
@@ -620,7 +633,9 @@
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-10">
                                                                                     <textarea  class="mt-3 form-control"
-                                                                                              placeholder="Awesomeness and Creativity are in my DNA"
+                                                                                               name="summary"
+                                                                                               required
+                                                                                               placeholder="Awesomeness and Creativity are in my DNA"
                                                                                                th:text="${summary}"></textarea>
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Employee Summary</label>
@@ -629,13 +644,18 @@
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="Cape Town" th:value="${city}">
+                                                                                           placeholder="Cape Town"
+                                                                                           required
+                                                                                           name="city" th:value="${city}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;City</label>
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="Durbanville" th:value="${suburb}">
+                                                                                           placeholder="Durbanville"
+                                                                                           required
+                                                                                           name="suburb"
+                                                                                           th:value="${suburb}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Suburb</label>
                                                                                 </div>
@@ -643,17 +663,24 @@
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="text" class="form-control"
-                                                                                           placeholder="123 Nowhere Street" th:value="${address}">
+                                                                                           name="address"
+                                                                                           required
+                                                                                           placeholder="123 Nowhere Street"
+                                                                                           th:value="${address}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Address</label>
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <input type="Number" class="form-control"
-                                                                                           placeholder="8001" th:value="${zip_code}">
+                                                                                           placeholder="8001"
+                                                                                           required
+                                                                                           name="zipCode"
+                                                                                           th:value="${zip_code}">
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;Zip Code</label>
                                                                                 </div>
                                                                             </div>
+
                                                                             <h4 class="m-2 mt-4 sub-title"></h4>
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 col-md-5">
@@ -666,6 +693,14 @@
                                                                                     <!-- Block level buttons with icon -->
                                                                                     <div class="form-group">
                                                                                         <button class="btn waves-effect waves-light btn-primary btn-outline-primary btn-block"><i class="icofont icofont-save"></i><b>Update Employee</b></button>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group form-primary form-static-label row">
+                                                                                    <div class="m-3 mt-2 col-sm-5">
+                                                                                        <input type="text" class="form-control" disabled th:hidden="hidden"
+                                                                                               placeholder="John" th:value="${Id} ">
+                                                                                        <span class="form-bar"></span>
+                                                                                        <!--                                                                                        <label class="float-label">&emsp;&ensp;Employee ID</label>-->
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
