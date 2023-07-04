@@ -460,7 +460,7 @@
                                                                 <!-- Tab panes -->
                                                                 <div class="tab-content card-block">
                                                                     <div class="tab-pane active" id="home7" role="tabpanel">
-                                                                        <h4 class="m-2 mt-3 sub-title">About Employee</h4>
+                                                                        <h4 class="m-2 mt-3 sub-title">Employee Summary</h4>
                                                                         <p class="m-4" th:name="summary" th:text="${summary}"></p>
 
                                                                         <h4 class="m-2 mt-4 sub-title">Profile Details</h4>
@@ -716,7 +716,7 @@
                                                                                             class="selectpicker form-control"
                                                                                             data-style="btn-outline-primary"
                                                                                             data-size="5"
-                                                                                            name="ethnicity">
+                                                                                            name="myProjects">
 
                                                                                         <option></option>
                                                                                     </select>
@@ -728,7 +728,7 @@
                                                                                             class="selectpicker form-control"
                                                                                             data-style="btn-outline-primary"
                                                                                             data-size="5"
-                                                                                            name="ethnicity">
+                                                                                            name="allProjects">
 
                                                                                         <option></option>
                                                                                     </select>
@@ -750,15 +750,15 @@
 
                                                                     <div class="tab-pane" id="settings7" role="tabpanel">
                                                                         <h4 class="m-2 mt-4 sub-title">Remove Employee Profile</h4>
-                                                                        <form th:action="@{/delete-employee/employeeId=${employee}}" th:object="${employee}" method="GET">
+                                                                        <form th:action="@{/manage-techies/delete-employee/{id}(id=${Id})}" method="GET">
                                                                             <div class="m-2 row mb-3">
                                                                                 <label class="col-md-4 col-lg-3 col-form-label">Delete Employee Profile</label>
                                                                                 <div class="col-md-8 col-lg-9">
                                                                                     <div class="form-check">
-                                                                                        <input class="form-check-input" name="yes_no" onclick="checkCheckbox()"
+                                                                                        <input class="form-check-input" name="yes_no"
                                                                                                type="checkbox" id="confirmDelete" required>
                                                                                         <label class="form-check-label" for="confirmDelete">
-                                                                                            Delete Employee Account
+                                                                                            Delete Employee Profile
                                                                                         </label>
                                                                                     </div>
 
