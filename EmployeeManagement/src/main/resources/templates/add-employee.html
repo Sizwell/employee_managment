@@ -404,8 +404,15 @@
                                                                 <label class="float-label">&emsp;&ensp;Email (example@gmail.com)</label>
                                                             </div>
                                                             <div class="mt-3 col-sm-6">
-                                                                <input type="number" th:field="*{number}" class="form-control"
-                                                                       placeholder="0712345689">
+                                                                <input type="number" th:field="*{number}"
+                                                                       class="form-control"
+                                                                       placeholder="0712345689"
+                                                                       oninput="javascript: if (
+                                                                           this.value.length > this.maxLength)
+                                                                           this.value = this.value.slice
+                                                                           (0, this.maxLength);"
+                                                                       maxlength="10"
+                                                                >
                                                                 <span class="form-bar"></span>
                                                                 <label class="float-label">&emsp;&ensp;Employee Phone Number</label>
                                                             </div>

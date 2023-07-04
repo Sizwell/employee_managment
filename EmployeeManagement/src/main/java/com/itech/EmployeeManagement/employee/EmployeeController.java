@@ -3,12 +3,10 @@ package com.itech.EmployeeManagement.employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -64,7 +62,7 @@ public class EmployeeController {
         return "manage-techies";
     }
 
-    @GetMapping("/find-employee/")
+    @GetMapping("/find-employee")
     public String findEmployee(@RequestParam("name") String name,
                                @RequestParam("surname") String surname,
                                Model model)
@@ -73,6 +71,8 @@ public class EmployeeController {
 
         for (Employee employee_: employees)
         {
+            //employee = employeeService.getEmployeeById(employee_.getId());
+            model.addAttribute("Id", employee_.getId());
             model.addAttribute("name", employee_.getName());
             model.addAttribute("surname", employee_.getSurname());
             model.addAttribute("occupation", employee_.getOccupation());
@@ -91,12 +91,35 @@ public class EmployeeController {
         return "manage-techies";
     }
 
-    @GetMapping("employee-profile")
+    @GetMapping("/employee-profile")
     public String profile()
     {
         return "manage-techies";
     }
 
+    @PostMapping("/find-employee/{id}/update-techie")
+    public String updateEmployee(
+            @PathVariable ("id") Long employeeId,
+            @RequestParam(required = false) String name,
+            // Variable names here should match the names of fields in the corresponding html file
+            @RequestParam(required = false) String surname,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String number,
+            @RequestParam(required = false) String occupation,
+            @RequestParam(required = false) String experience,
+            @RequestParam(required = false) String summary,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String suburb,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String zipCode
+            )
+    {
+        employeeService.updateEmployee(
+                employeeId, name, surname, email, number, occupation,
+                experience, summary, city, suburb, address, zipCode
+        );
+        return "manage-techies";
+    }
 
     @GetMapping("/all-techies")
     public String allTechies(){
