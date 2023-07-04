@@ -15,6 +15,7 @@ public class EmployeeController {
 
     String addEmployeeRedirect = "redirect:/add-employee";
     String manageTechiesRedirect = "redirect:/manage-techies";
+    String manageITechies = "manage-techies";
 
     private final EmployeeService employeeService;
     Employee employee = new Employee();
@@ -50,16 +51,16 @@ public class EmployeeController {
         return addEmployeeRedirect;
     }
 
-    @PostMapping( "/delete-employee/{employeeId}")
-    public String deleteEmployee(@RequestParam("id") Long employeeId)
+    @GetMapping( "/manage-techies/delete-employee/{id}")
+    public String deleteEmployee(@PathVariable("id") Long employeeId)
     {
         employeeService.deleteEmployee(employeeId);
-        return addEmployeeRedirect;
+        return manageTechiesRedirect;
     }
 
     @GetMapping("/manage-techies")
     String manageTechies(){
-        return "manage-techies";
+        return manageITechies;
     }
 
     @GetMapping("/find-employee")
@@ -87,14 +88,14 @@ public class EmployeeController {
             model.addAttribute("address", employee_.getAddress());
             model.addAttribute("zip_code", employee_.getZipCode());
         }
-
-        return "manage-techies";
+                // return manageTechiesRedirect does not display any db records
+        return manageITechies;
     }
 
     @GetMapping("/employee-profile")
     public String profile()
     {
-        return "manage-techies";
+        return manageITechies;
     }
 
     @PostMapping("/find-employee/{id}/update-techie")
@@ -118,7 +119,7 @@ public class EmployeeController {
                 employeeId, name, surname, email, number, occupation,
                 experience, summary, city, suburb, address, zipCode
         );
-        return "manage-techies";
+        return manageTechiesRedirect;
     }
 
     @GetMapping("/all-techies")
