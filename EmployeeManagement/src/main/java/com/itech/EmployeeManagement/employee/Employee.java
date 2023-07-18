@@ -1,15 +1,20 @@
 package com.itech.EmployeeManagement.employee;
 
+import com.itech.EmployeeManagement.address.Address;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Long Id;
+    @Column(name = "employee_id")
+    private Long employeeId;
     private String name;
     private String surname;
     private String email;
@@ -22,32 +27,52 @@ public class Employee {
 
     private String experience;
     private String summary;
-    private String city;
-    private String suburb;
-    private String address;
-    private String zipCode;
+
+    public Address getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Address addresses) {
+        this.addresses = addresses;
+    }
+
+    public Employee(Address addresses) {
+        this.addresses = addresses;
+    }
+
+    //    private String city;
+//    private String suburb;
+//    private String address;
+//    private String zipCode;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private Address addresses;
+
 
     public Employee() {
     }
 
-    public Employee(Long id,
-                    String name,
-                    String surname,
-                    String email,
-                    String number,
-                    String idNumber,
-                    LocalDate dob,
-                    String gender,
-                    String ethnicity,
-                    String occupation,
-                    String experience,
-                    String summary,
-                    String city,
-                    String suburb,
-                    String address,
-                    String zipCode)
+    public Employee(
+            Long employeeId,
+            String name,
+            String surname,
+            String email,
+            String number,
+            String idNumber,
+            LocalDate dob,
+            String gender,
+            String ethnicity,
+            String occupation,
+            String experience,
+            String summary
+//            ,
+//                    String city,
+//                    String suburb,
+//                    String address,
+//                    String zipCode
+    )
     {
-        Id = id;
+        this.employeeId = employeeId;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -59,10 +84,10 @@ public class Employee {
         this.occupation = occupation;
         this.experience = experience;
         this.summary = summary;
-        this.city = city;
-        this.suburb = suburb;
-        this.address = address;
-        this.zipCode = zipCode;
+//        this.city = city;
+//        this.suburb = suburb;
+//        this.address = address;
+//        this.zipCode = zipCode;
     }
 //Constructor with no ID field as the Database will generate and populate this field
     public Employee(String name,
@@ -75,11 +100,13 @@ public class Employee {
                     String ethnicity,
                     String occupation,
                     String experience,
-                    String summary,
-                    String city,
-                    String suburb,
-                    String address,
-                    String zipCode)
+                    String summary
+//            ,
+//                    String city,
+//                    String suburb,
+//                    String address,
+//                    String zipCode
+    )
     {
         this.name = name;
         this.surname = surname;
@@ -92,18 +119,18 @@ public class Employee {
         this.occupation = occupation;
         this.experience = experience;
         this.summary = summary;
-        this.city = city;
-        this.suburb = suburb;
-        this.address = address;
-        this.zipCode = zipCode;
+//        this.city = city;
+//        this.suburb = suburb;
+//        this.address = address;
+//        this.zipCode = zipCode;
     }
 
-    public Long getId() {
-        return Id;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
-    public void setId(Long id) {
-        Id = id;
+    public void setEmployeeId(Long employeeId) {
+        employeeId = employeeId;
     }
 
     public String getName() {
@@ -193,42 +220,42 @@ public class Employee {
         this.summary = summary;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getSuburb() {
-        return suburb;
-    }
-
-    public void setSuburb(String suburb) {
-        this.suburb = suburb;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
+//    public String getCity() {
+//        return city;
+//    }
+//
+//    public void setCity(String city) {
+//        this.city = city;
+//    }
+//
+//    public String getSuburb() {
+//        return suburb;
+//    }
+//
+//    public void setSuburb(String suburb) {
+//        this.suburb = suburb;
+//    }
+//
+//    public String getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(String address) {
+//        this.address = address;
+//    }
+//
+//    public String getZipCode() {
+//        return zipCode;
+//    }
+//
+//    public void setZipCode(String zipCode) {
+//        this.zipCode = zipCode;
+//    }
 
     @Override
     public String toString() {
         return "Employees{" +
-                "Id=" + Id +
+                "employeeId=" + employeeId +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
@@ -239,11 +266,12 @@ public class Employee {
                 ", ethnicity='" + ethnicity + '\'' +
                 ", occupation='" + occupation + '\'' +
                 ", experience='" + experience + '\'' +
-                ", summary='" + summary + '\'' +
-                ", city='" + city + '\'' +
-                ", suburb='" + suburb + '\'' +
-                ", address='" + address + '\'' +
-                ", zipCode=" + zipCode +
+                ", summary='" + summary +
+//                '\'' +
+//                ", city='" + city + '\'' +
+//                ", suburb='" + suburb + '\'' +
+//                ", address='" + address + '\'' +
+//                ", zipCode=" + zipCode +
                 '}';
     }
 }

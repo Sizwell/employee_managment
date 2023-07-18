@@ -1,12 +1,13 @@
 package com.itech.EmployeeManagement.employee;
 
+import com.itech.EmployeeManagement.address.Address;
+import com.itech.EmployeeManagement.address.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -17,13 +18,15 @@ public class EmployeeController {
     String manageTechiesRedirect = "redirect:/manage-techies";
     String manageITechies = "manage-techies";
 
-    private final EmployeeService employeeService;
     Employee employee = new Employee();
+    private final EmployeeService employeeService;
+    private final AddressService addressService;
     ModelAndView modelAndView;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, AddressService addressService) {
         this.employeeService = employeeService;
+        this.addressService = addressService;
     }
 
     @GetMapping
@@ -41,13 +44,17 @@ public class EmployeeController {
     {
         modelAndView = new ModelAndView("add-employee");
         modelAndView.addObject("employee", employee);
+        modelAndView.addObject("address", new Address());
         return modelAndView;
     }
 
-    @PostMapping("/save-employee")
-    public String addEmployees(@ModelAttribute Employee employee)
+    @PostMapping("/add-employee")
+    public String addEmployees(
+            @ModelAttribute Employee employee,
+            @ModelAttribute Address address)
     {
         employeeService.addNewEmployee(employee);
+        addressService.addEmployeeAddress(address);
         return addEmployeeRedirect;
     }
 
@@ -70,10 +77,13 @@ public class EmployeeController {
     {
         List<Employee> employees = employeeService.searchEmployeeByNameAndSurname(name, surname);
 
+        System.out.println(employees + " " +  employee.getAddresses());
+        Address address = new Address();
+
         for (Employee employee_: employees)
         {
             //employee = employeeService.getEmployeeById(employee_.getId());
-            model.addAttribute("Id", employee_.getId());
+            model.addAttribute("Id", employee_.getEmployeeId());
             model.addAttribute("name", employee_.getName());
             model.addAttribute("surname", employee_.getSurname());
             model.addAttribute("occupation", employee_.getOccupation());
@@ -83,11 +93,12 @@ public class EmployeeController {
             model.addAttribute("email", employee_.getEmail());
             model.addAttribute("summary", employee_.getSummary());
 
-            model.addAttribute("city", employee_.getCity());
-            model.addAttribute("suburb", employee_.getSuburb());
-            model.addAttribute("address", employee_.getAddress());
-            model.addAttribute("zip_code", employee_.getZipCode());
+            model.addAttribute("city", address.getCity());
+            model.addAttribute("suburb", address.getSuburb());
+            model.addAttribute("address", address.getEmployeeAddress());
+            model.addAttribute("zip_code", address.getZipCode());
         }
+
                 // return manageTechiesRedirect does not display any db records
         return manageITechies;
     }

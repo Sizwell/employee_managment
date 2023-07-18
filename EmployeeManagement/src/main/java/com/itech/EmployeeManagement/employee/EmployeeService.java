@@ -1,11 +1,10 @@
 package com.itech.EmployeeManagement.employee;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -25,7 +24,7 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public void addNewEmployee(Employee employee)
+    public Employee addNewEmployee(Employee employee)
     {
         System.out.println(employee);
         Optional<Employee> employeeOptional = employeeRepository.findEmployeeByEmail(employee.getEmail());
@@ -35,6 +34,7 @@ public class EmployeeService {
             throw new IllegalStateException("Email already taken");
         }
         employeeRepository.saveAndFlush(employee);
+        return employee;
     }
 
     public void deleteEmployee(Long employeeId)
@@ -137,30 +137,35 @@ public class EmployeeService {
             employee.setSummary(summary);
         }
 
-        if (city != null && city.length() > 0 && !Objects.equals(employee.getCity(), city))
-        {
-            employee.setCity(city);
-        }
-
-        if (suburb != null && suburb.length() > 0 && !Objects.equals(employee.getSuburb(), suburb))
-        {
-            employee.setSuburb(suburb);
-        }
-
-        if (address != null && address.length() > 0 && !Objects.equals(employee.getAddress(), address))
-        {
-            employee.setAddress(address);
-        }
-
-        if (zipCode != null && zipCode.length() > 0 && !Objects.equals(employee.getZipCode(), zipCode))
-        {
-            employee.setZipCode(zipCode);
-        }
+//        if (city != null && city.length() > 0 && !Objects.equals(employee.getCity(), city))
+//        {
+//            employee.setCity(city);
+//        }
+//
+//        if (suburb != null && suburb.length() > 0 && !Objects.equals(employee.getSuburb(), suburb))
+//        {
+//            employee.setSuburb(suburb);
+//        }
+//
+//        if (address != null && address.length() > 0 && !Objects.equals(employee.getAddress(), address))
+//        {
+//            employee.setAddress(address);
+//        }
+//
+//        if (zipCode != null && zipCode.length() > 0 && !Objects.equals(employee.getZipCode(), zipCode))
+//        {
+//            employee.setZipCode(zipCode);
+//        }
 
     }
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Employee not found"));
+    }
+
+    public Employee getEmployeeWithAddress(Long employeeId) {
+        return employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
     }
 
 //    public Employee update(Long id, String name, String surname)
