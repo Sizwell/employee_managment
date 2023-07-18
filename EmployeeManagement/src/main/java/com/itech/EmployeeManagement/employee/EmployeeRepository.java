@@ -1,5 +1,6 @@
 package com.itech.EmployeeManagement.employee;
 
+import com.itech.EmployeeManagement.address.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +22,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByNameAndSurname(@Param("name") String name, @Param("surname") String surname);
 
     Optional<Employee> findByNumber(String number);
+
+    /*
+    The below commented-out query is what we are looking to get sorted
+     */
+    //@Query("SELECT emp FROM Employee emp JOIN FETCH emp.addresses adr WHERE emp.name = :name AND emp.surname = :surname")
+    @Query("SELECT e.addresses FROM Employee e WHERE e.name = :name AND e.surname = :surname")
+    Address findAddressByNameAndSurname(@Param("name") String name, @Param("surname") String surname);
 }

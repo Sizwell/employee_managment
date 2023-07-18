@@ -1,7 +1,6 @@
 package com.itech.EmployeeManagement.employee;
 
 import com.itech.EmployeeManagement.address.Address;
-import com.itech.EmployeeManagement.address.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,13 +19,12 @@ public class EmployeeController {
 
     Employee employee = new Employee();
     private final EmployeeService employeeService;
-    private final AddressService addressService;
+
     ModelAndView modelAndView;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, AddressService addressService) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
-        this.addressService = addressService;
     }
 
     @GetMapping
@@ -53,8 +51,7 @@ public class EmployeeController {
             @ModelAttribute Employee employee,
             @ModelAttribute Address address)
     {
-        employeeService.addNewEmployee(employee);
-        addressService.addEmployeeAddress(address);
+        employeeService.addNewEmployee(employee, address);
         return addEmployeeRedirect;
     }
 
@@ -71,37 +68,45 @@ public class EmployeeController {
     }
 
     @GetMapping("/find-employee")
-    public String findEmployee(@RequestParam("name") String name,
-                               @RequestParam("surname") String surname,
-                               Model model)
+    public String findEmployee(@RequestParam("name") String name, @RequestParam("surname") String surname)
     {
-        List<Employee> employees = employeeService.searchEmployeeByNameAndSurname(name, surname);
-
-        System.out.println(employees + " " +  employee.getAddresses());
-        Address address = new Address();
-
-        for (Employee employee_: employees)
-        {
-            //employee = employeeService.getEmployeeById(employee_.getId());
-            model.addAttribute("Id", employee_.getEmployeeId());
-            model.addAttribute("name", employee_.getName());
-            model.addAttribute("surname", employee_.getSurname());
-            model.addAttribute("occupation", employee_.getOccupation());
-            model.addAttribute("years_experience", employee_.getExperience());
-            model.addAttribute("ethnicity", employee_.getEthnicity());
-            model.addAttribute("number", employee_.getNumber());
-            model.addAttribute("email", employee_.getEmail());
-            model.addAttribute("summary", employee_.getSummary());
-
-            model.addAttribute("city", address.getCity());
-            model.addAttribute("suburb", address.getSuburb());
-            model.addAttribute("address", address.getEmployeeAddress());
-            model.addAttribute("zip_code", address.getZipCode());
-        }
-
-                // return manageTechiesRedirect does not display any db records
+        Address address = employeeService.getAddressByEmployeeNameAndSurname(name, surname);
+        System.out.println(address);
         return manageITechies;
     }
+
+//    @GetMapping("/find-employee")
+//    public String findEmployee(@RequestParam("name") String name,
+//                               @RequestParam("surname") String surname,
+//                               Model model)
+//    {
+//        List<Employee> employees = employeeService.searchEmployeeByNameAndSurname(name, surname);
+//
+//        System.out.println(employees + " " +  employee.getAddresses());
+//        Address address = new Address();
+//
+//        for (Employee employee_: employees)
+//        {
+//            //employee = employeeService.getEmployeeById(employee_.getId());
+//            model.addAttribute("Id", employee_.getEmployeeId());
+//            model.addAttribute("name", employee_.getName());
+//            model.addAttribute("surname", employee_.getSurname());
+//            model.addAttribute("occupation", employee_.getOccupation());
+//            model.addAttribute("years_experience", employee_.getExperience());
+//            model.addAttribute("ethnicity", employee_.getEthnicity());
+//            model.addAttribute("number", employee_.getNumber());
+//            model.addAttribute("email", employee_.getEmail());
+//            model.addAttribute("summary", employee_.getSummary());
+//
+//            model.addAttribute("city", address.getCity());
+//            model.addAttribute("suburb", address.getSuburb());
+//            model.addAttribute("address", address.getEmployeeAddress());
+//            model.addAttribute("zip_code", address.getZipCode());
+//        }
+//
+//                // return manageTechiesRedirect does not display any db records
+//        return manageITechies;
+//    }
 
     @GetMapping("/employee-profile")
     public String profile()

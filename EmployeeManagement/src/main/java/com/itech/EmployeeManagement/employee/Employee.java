@@ -44,6 +44,14 @@ public class Employee {
 //    private String suburb;
 //    private String address;
 //    private String zipCode;
+
+    /*
+    Cascading options, such as CascadeType.ALL in the Employee entity,
+    allow you to propagate save, update, and delete operations to the
+    associated Address entity.
+    FetchType.LAZY is used to fetch the Address entity only when needed,
+    reducing unnecessary database queries.
+     */
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Address addresses;

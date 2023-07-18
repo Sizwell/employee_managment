@@ -1,5 +1,7 @@
 package com.itech.EmployeeManagement.employee;
 
+import com.itech.EmployeeManagement.address.Address;
+import com.itech.EmployeeManagement.address.AddressRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +16,19 @@ import java.util.Optional;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final AddressRepository addressRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, AddressRepository addressRepository) {
         this.employeeRepository = employeeRepository;
+        this.addressRepository = addressRepository;
     }
 
     public List<Employee> getEmployees(){
         return employeeRepository.findAll();
     }
 
-    public Employee addNewEmployee(Employee employee)
+    public Employee addNewEmployee(Employee employee, Address address)
     {
         System.out.println(employee);
         Optional<Employee> employeeOptional = employeeRepository.findEmployeeByEmail(employee.getEmail());
@@ -34,6 +38,7 @@ public class EmployeeService {
             throw new IllegalStateException("Email already taken");
         }
         employeeRepository.saveAndFlush(employee);
+        addressRepository.saveAndFlush(address);
         return employee;
     }
 
@@ -47,23 +52,9 @@ public class EmployeeService {
         else employeeRepository.deleteById(employeeId);
     }
 
-    public void searchEmployee(String name, String surname)
+    public Address getAddressByEmployeeNameAndSurname(String name, String surname)
     {
-        List<Employee> searchEmployee = employeeRepository.findByNameAndSurname
-                (name, surname
-        );
-
-        if (searchEmployee.isEmpty())
-        {
-            System.out.println("No user found with Matching name and surname");
-        }
-        else employeeRepository.findByNameAndSurname(name, surname);
-        System.out.println("Employee Surname ): " + surname);
-
-        for (int i = 0; i < searchEmployee.size(); i++) {
-            System.out.println("Employee: " + i);
-        }
-
+        return employeeRepository.findAddressByNameAndSurname(name, surname);
     }
 
 
