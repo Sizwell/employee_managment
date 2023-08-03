@@ -1,7 +1,9 @@
-package com.itech.EmployeeManagement.employee;
+package com.itech.EmployeeManagement.employee.service;
 
-import com.itech.EmployeeManagement.address.Address;
-import com.itech.EmployeeManagement.address.AddressRepository;
+import com.itech.EmployeeManagement.address.entity.Address;
+import com.itech.EmployeeManagement.address.repsitory.AddressRepository;
+import com.itech.EmployeeManagement.employee.entity.Employee;
+import com.itech.EmployeeManagement.employee.repsitory.EmployeeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +54,10 @@ public class EmployeeService {
         else employeeRepository.deleteById(employeeId);
     }
 
-    public Address getAddressByEmployeeNameAndSurname(String name, String surname)
+    public List<Address> getAddressByEmployeeNameAndSurname(String name, String surname)
     {
         return employeeRepository.findAddressByNameAndSurname(name, surname);
     }
-
 
     public List<Employee> searchEmployeeByNameAndSurname(String name, String surname)
     {
@@ -65,22 +66,25 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void updateEmployee(Long id,
-                               String name,
-                               String surname,
-                               String email,
-                               String number,
-                               String occupation,
-                               String experience,
-                               String summary,
-                               String city,
-                               String suburb,
-                               String address,
-                               String zipCode
+    public void updateEmployee(
+            Long id,
+            String name,
+            String surname,
+            String email,
+            String number,
+            String occupation,
+            String experience,
+            String summary,
+            String city,
+            String suburb,
+            String address,
+            String zipCode
     )
     {
         Employee employee = employeeRepository.findById(id).orElseThrow(() -> new IllegalStateException
                 ("Employee with ID " + id + "does not exist"));
+        Address employeeAddress = employeeRepository.findById(id).orElseThrow(() -> new IllegalStateException
+                        ("Employee Address for Employee with ID " + id + " not found")).getAddresses();
         //!Objects.equals is to check if the name provided is not the same as Current one
         if (name != null && name.length() > 0 && !Objects.equals(employee.getName(), name))
         {
@@ -128,25 +132,28 @@ public class EmployeeService {
             employee.setSummary(summary);
         }
 
-//        if (city != null && city.length() > 0 && !Objects.equals(employee.getCity(), city))
-//        {
-//            employee.setCity(city);
-//        }
-//
-//        if (suburb != null && suburb.length() > 0 && !Objects.equals(employee.getSuburb(), suburb))
-//        {
-//            employee.setSuburb(suburb);
-//        }
-//
-//        if (address != null && address.length() > 0 && !Objects.equals(employee.getAddress(), address))
-//        {
-//            employee.setAddress(address);
-//        }
-//
-//        if (zipCode != null && zipCode.length() > 0 && !Objects.equals(employee.getZipCode(), zipCode))
-//        {
-//            employee.setZipCode(zipCode);
-//        }
+//        List<Address> addresses = getAddressByEmployeeNameAndSurname(name, surname);
+
+
+        if (city != null && city.length() > 0 && !Objects.equals(employeeAddress.getCity(), city))
+        {
+            employeeAddress.setCity(city);
+        }
+
+        if (suburb != null && suburb.length() > 0 && !Objects.equals(employeeAddress.getSuburb(), suburb))
+        {
+            employeeAddress.setSuburb(suburb);
+        }
+
+        if (address != null && address.length() > 0 && !Objects.equals(employeeAddress.getEmployeeAddress(), address))
+        {
+            employeeAddress.setEmployeeAddress(address);
+        }
+
+        if (zipCode != null && zipCode.length() > 0 && !Objects.equals(employeeAddress.getZipCode(), zipCode))
+        {
+            employeeAddress.setZipCode(zipCode);
+        }
 
     }
     public Employee getEmployeeById(Long id) {

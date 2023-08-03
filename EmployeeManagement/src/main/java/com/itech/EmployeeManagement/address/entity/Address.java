@@ -1,6 +1,5 @@
-package com.itech.EmployeeManagement.address;
+package com.itech.EmployeeManagement.address.entity;
 
-import com.itech.EmployeeManagement.employee.Employee;
 import jakarta.persistence.*;
 
 @Entity

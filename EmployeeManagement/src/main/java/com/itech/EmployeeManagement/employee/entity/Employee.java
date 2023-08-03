@@ -1,11 +1,9 @@
-package com.itech.EmployeeManagement.employee;
+package com.itech.EmployeeManagement.employee.entity;
 
-import com.itech.EmployeeManagement.address.Address;
+import com.itech.EmployeeManagement.address.entity.Address;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table

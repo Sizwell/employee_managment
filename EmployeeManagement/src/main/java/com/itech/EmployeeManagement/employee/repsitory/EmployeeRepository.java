@@ -1,6 +1,7 @@
-package com.itech.EmployeeManagement.employee;
+package com.itech.EmployeeManagement.employee.repsitory;
 
-import com.itech.EmployeeManagement.address.Address;
+import com.itech.EmployeeManagement.address.entity.Address;
+import com.itech.EmployeeManagement.employee.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,5 +29,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
      */
     //@Query("SELECT emp FROM Employee emp JOIN FETCH emp.addresses adr WHERE emp.name = :name AND emp.surname = :surname")
     @Query("SELECT e.addresses FROM Employee e WHERE e.name = :name AND e.surname = :surname")
-    Address findAddressByNameAndSurname(@Param("name") String name, @Param("surname") String surname);
+    List<Address> findAddressByNameAndSurname(@Param("name") String name, @Param("surname") String surname);
 }
