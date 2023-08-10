@@ -4,33 +4,44 @@ import com.itech.EmployeeManagement.address.entity.Address;
 import com.itech.EmployeeManagement.address.repsitory.AddressRepository;
 import com.itech.EmployeeManagement.employee.entity.Employee;
 import com.itech.EmployeeManagement.employee.repsitory.EmployeeRepository;
+import com.itech.EmployeeManagement.project.entity.Project;
+import com.itech.EmployeeManagement.project.repository.ProjectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class EmployeeService {
 
+    private static final Logger logger = Logger.getLogger(EmployeeService.class.getName());
+
     private final EmployeeRepository employeeRepository;
     private final AddressRepository addressRepository;
+    private final ProjectRepository projectRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, AddressRepository addressRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, AddressRepository addressRepository, ProjectRepository projectRepository, JdbcTemplate jdbcTemplate) {
         this.employeeRepository = employeeRepository;
         this.addressRepository = addressRepository;
+        this.projectRepository = projectRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<Employee> getEmployees(){
         return employeeRepository.findAll();
     }
 
-    public Employee addNewEmployee(Employee employee, Address address)
+    @Transactional
+    public Employee addNewEmployee(Employee employee, Address address, String projectName)
     {
         System.out.println(employee);
         Optional<Employee> employeeOptional = employeeRepository.findEmployeeByEmail(employee.getEmail());
@@ -40,8 +51,31 @@ public class EmployeeService {
             throw new IllegalStateException("Email already taken");
         }
         employeeRepository.saveAndFlush(employee);
+        logger.info("Employee saved to Database");
         addressRepository.saveAndFlush(address);
+        logger.info("Employee Address saved to Database");
+
+
+        if (projectName.isEmpty())
+        {
+            logger.info("No project selected");
+        } else {
+            List<Long> employeeId = employeeRepository.findEmployeeId(employee.getName());
+            Long projectId = projectRepository.findProjectId(projectName);
+
+            for (int i = 0; i < employeeId.size(); i++) {
+                assignEmployeeToProject(employeeId.get(i), projectId);
+            }
+        }
+
         return employee;
+    }
+
+    //To work on a JPQL solution to add to the joining table (work_items)
+    public void assignEmployeeToProject(Long employeeId, Long projectId)
+    {
+        String sql = "INSERT INTO work_items (employee_id, project_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, employeeId, projectId);
     }
 
     public void deleteEmployee(Long employeeId)
@@ -178,4 +212,17 @@ public class EmployeeService {
 //        return employeeRepository.save(employee);
 //
 //    }
+
+    public List<String> getAllEmployeeNames()
+    {
+        List<String> employeeList = employeeRepository.getAllEmployeeNames();
+        logger.info("Employee Names: " + employeeList.toString());
+
+        for (int i = 0; i < employeeList.size(); i++) {
+            logger.info(employeeList.get(i));
+        }
+        //logger.info("Employee Names zzzzzzzzzzzz: " + employeeRepository.getAllEmployeeNames());
+        return employeeRepository.getAllEmployeeNames();
+
+    }
 }

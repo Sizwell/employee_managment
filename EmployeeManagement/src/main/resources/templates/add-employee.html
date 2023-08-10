@@ -483,7 +483,30 @@
                                                                 <span class="form-bar"></span>
                                                                 <label class="float-label">&emsp;&ensp;About Employee</label>
                                                             </div>
+
                                                         </div>
+                                                        <h4 class="sub-title"></h4>
+                                                        <h4 class="sub-title">Assign Employee to Project</h4>
+                                                        <div class="form-group form-primary form-static-label row">
+                                                            <div class="mt-3 col-md-6">
+                                                                <p style="color: #3380FF;">Available Projects</p>
+                                                                <select
+                                                                        class="selectpicker form-control"
+                                                                        data-style="btn-outline-primary"
+                                                                        data-size="5"
+                                                                        id="project"
+                                                                        name="project">  
+
+                                                                    <option value="">Select project to assign...</option>
+                                                                    <th:block th:each="project_name : ${projects}">
+                                                                        <option th:value="${project_name}"
+                                                                                th:text="${project_name}">
+                                                                        </option>
+                                                                    </th:block>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <h4 class="sub-title"></h4>
                                                         <h4 class="sub-title">Employee Address</h4>
                                                         <div class="form-group form-primary form-static-label row">
                                                             <div class="mt-3 col-md-6">

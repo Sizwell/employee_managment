@@ -34,4 +34,14 @@ public class ProjectService {
         logger.fine("Saving project...");
         projectRepository.saveAndFlush(project);
     }
+
+    public List<String> getProjectNames()
+    {
+        List<String> projectList = projectRepository.getAllProjectNames();
+
+        for (int i = 0; i < projectList.size(); i++) {
+            logger.info(projectList.get(i));
+        }
+        return projectRepository.getAllProjectNames();
+    }
 }

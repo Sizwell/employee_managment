@@ -418,7 +418,10 @@
                                     data-size="5"
                                     name="team">
 
-                                  <option></option>
+                                  <option value="">Select team members...</option>
+                                  <th:block th:each="name : ${team}">
+                                    <option th:value="${name}" th:text="${name}"></option>
+                                  </th:block>
                                 </select>
                               </div>
                             </div>

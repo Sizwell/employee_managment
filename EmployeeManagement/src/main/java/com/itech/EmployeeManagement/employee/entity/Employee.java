@@ -1,9 +1,12 @@
 package com.itech.EmployeeManagement.employee.entity;
 
 import com.itech.EmployeeManagement.address.entity.Address;
+import com.itech.EmployeeManagement.project.entity.Project;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -53,6 +56,14 @@ public class Employee {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Address addresses;
+
+    @ManyToMany
+    @JoinTable(
+            name = "work_items",
+            joinColumns = @JoinColumn(name = "employee_id"),
+            inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private Set<Project> projects = new HashSet<>();
 
 
     public Employee() {
@@ -129,6 +140,14 @@ public class Employee {
 //        this.suburb = suburb;
 //        this.address = address;
 //        this.zipCode = zipCode;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
 
     public Long getEmployeeId() {

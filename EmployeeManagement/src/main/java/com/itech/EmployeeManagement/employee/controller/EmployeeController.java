@@ -3,7 +3,7 @@ package com.itech.EmployeeManagement.employee.controller;
 import com.itech.EmployeeManagement.address.entity.Address;
 import com.itech.EmployeeManagement.employee.service.EmployeeService;
 import com.itech.EmployeeManagement.employee.entity.Employee;
-import com.itech.EmployeeManagement.project.entity.Project;
+import com.itech.EmployeeManagement.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +24,14 @@ public class EmployeeController {
 
     Employee employee = new Employee();
     private final EmployeeService employeeService;
+    private final ProjectService projectService;
 
     ModelAndView modelAndView;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, ProjectService projectService) {
         this.employeeService = employeeService;
+        this.projectService = projectService;
     }
 
     @GetMapping
@@ -42,21 +44,27 @@ public class EmployeeController {
         return "index";
     }
 
+    List<String> projectList;
     @GetMapping("/add-employee")
-    public ModelAndView iEmployees()
+    public ModelAndView iEmployees(Model model)
     {
         modelAndView = new ModelAndView("add-employee");
         modelAndView.addObject("employee", employee);
         modelAndView.addObject("address", new Address());
+        projectList = projectService.getProjectNames();
+        model.addAttribute("projects", projectList);
         return modelAndView;
     }
 
     @PostMapping("/add-employee")
     public String addEmployees(
+            @RequestParam("project") String project,
             @ModelAttribute Employee employee,
             @ModelAttribute Address address)
     {
-        employeeService.addNewEmployee(employee, address);
+        //projectList = projectService.getProjectNames();
+        logger.info("Selected project: " + project);
+        employeeService.addNewEmployee(employee, address, project);
         return addEmployeeRedirect;
     }
 
