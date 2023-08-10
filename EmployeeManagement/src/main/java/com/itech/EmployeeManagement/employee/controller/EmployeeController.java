@@ -1,29 +1,37 @@
-package com.itech.EmployeeManagement.employee;
+package com.itech.EmployeeManagement.employee.controller;
 
+import com.itech.EmployeeManagement.address.entity.Address;
+import com.itech.EmployeeManagement.employee.service.EmployeeService;
+import com.itech.EmployeeManagement.employee.entity.Employee;
+import com.itech.EmployeeManagement.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 //@RequestMapping(path = "/i-tech/abc-consulting")
 public class EmployeeController {
+    private static final Logger logger = Logger.getLogger(EmployeeController.class.getName());
 
     String addEmployeeRedirect = "redirect:/add-employee";
     String manageTechiesRedirect = "redirect:/manage-techies";
     String manageITechies = "manage-techies";
 
-    private final EmployeeService employeeService;
     Employee employee = new Employee();
+    private final EmployeeService employeeService;
+    private final ProjectService projectService;
+
     ModelAndView modelAndView;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, ProjectService projectService) {
         this.employeeService = employeeService;
+        this.projectService = projectService;
     }
 
     @GetMapping
@@ -36,18 +44,27 @@ public class EmployeeController {
         return "index";
     }
 
+    List<String> projectList;
     @GetMapping("/add-employee")
-    public ModelAndView iEmployees()
+    public ModelAndView iEmployees(Model model)
     {
         modelAndView = new ModelAndView("add-employee");
         modelAndView.addObject("employee", employee);
+        modelAndView.addObject("address", new Address());
+        projectList = projectService.getProjectNames();
+        model.addAttribute("projects", projectList);
         return modelAndView;
     }
 
-    @PostMapping("/save-employee")
-    public String addEmployees(@ModelAttribute Employee employee)
+    @PostMapping("/add-employee")
+    public String addEmployees(
+            @RequestParam("project") String project,
+            @ModelAttribute Employee employee,
+            @ModelAttribute Address address)
     {
-        employeeService.addNewEmployee(employee);
+        //projectList = projectService.getProjectNames();
+        logger.info("Selected project: " + project);
+        employeeService.addNewEmployee(employee, address, project);
         return addEmployeeRedirect;
     }
 
@@ -63,17 +80,44 @@ public class EmployeeController {
         return manageITechies;
     }
 
+//    @GetMapping("/find-employee")
+//    public String findEmployee(@RequestParam("name") String name, @RequestParam("surname") String surname)
+//    {
+//        Address address = employeeService.getAddressByEmployeeNameAndSurname(name, surname);
+//        System.out.println(address);
+//        return manageITechies;
+//    }
+
     @GetMapping("/find-employee")
     public String findEmployee(@RequestParam("name") String name,
                                @RequestParam("surname") String surname,
                                Model model)
     {
         List<Employee> employees = employeeService.searchEmployeeByNameAndSurname(name, surname);
+        List<Address> addresses = employeeService.getAddressByEmployeeNameAndSurname(name, surname);
+        logger.info("Employee Address " + addresses);
+        logger.info("Employee Address Breakdown " + addresses.get(0).getCity());
+
+        String streetAddress = addresses.get(0).getEmployeeAddress();
+        String suburb = addresses.get(0).getSuburb();
+        String city = addresses.get(0).getCity();
+        String zipCode = addresses.get(0).getZipCode();
+
+        String fullAddress = streetAddress + " \n" + suburb + " \n" + city;
+        logger.info(fullAddress);
+
+        System.out.println(employees + " " +  employee.getAddresses());
+
+        Address address = new Address();
+        address.setEmployeeAddress(streetAddress);
+        address.setSuburb(suburb);
+        address.setCity(city);
+        address.setZipCode(zipCode);
 
         for (Employee employee_: employees)
         {
             //employee = employeeService.getEmployeeById(employee_.getId());
-            model.addAttribute("Id", employee_.getId());
+            model.addAttribute("Id", employee_.getEmployeeId());
             model.addAttribute("name", employee_.getName());
             model.addAttribute("surname", employee_.getSurname());
             model.addAttribute("occupation", employee_.getOccupation());
@@ -83,11 +127,13 @@ public class EmployeeController {
             model.addAttribute("email", employee_.getEmail());
             model.addAttribute("summary", employee_.getSummary());
 
-            model.addAttribute("city", employee_.getCity());
-            model.addAttribute("suburb", employee_.getSuburb());
-            model.addAttribute("address", employee_.getAddress());
-            model.addAttribute("zip_code", employee_.getZipCode());
+            model.addAttribute("city", city);
+            model.addAttribute("suburb", suburb);
+            model.addAttribute("address", streetAddress);
+            model.addAttribute("fullAddress", fullAddress);
+            model.addAttribute("zip_code", zipCode);
         }
+
                 // return manageTechiesRedirect does not display any db records
         return manageITechies;
     }
@@ -127,19 +173,6 @@ public class EmployeeController {
         return "all-techies";
     }
 //To move all Project endpoints to Projects Controller
-    @GetMapping("/add-project")
-    public String addProject(){
-        return "add-project";
-    }
 
-    @GetMapping("/project-overview")
-    public String projectOverview(){
-        return "project-overview";
-    }
-
-    @GetMapping("/all-projects")
-    public String allProjects(){
-        return "all-projects";
-    }
 
 }

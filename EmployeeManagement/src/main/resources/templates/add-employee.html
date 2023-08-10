@@ -379,7 +379,7 @@
                                                 </div>
                                                 <div class="card-block">
                                                     <h4 class="sub-title">Basic Info</h4>
-                                                    <form th:action="@{/save-employee}" th:object="${employee}" method="POST" class="form-material">
+                                                    <form th:action="@{/add-employee}" th:object="${employee}" method="POST" class="form-material">
 
                                                         <div class="form-group form-primary form-static-label row">
                                                             <div class="mt-3 col-sm-6">
@@ -483,18 +483,41 @@
                                                                 <span class="form-bar"></span>
                                                                 <label class="float-label">&emsp;&ensp;About Employee</label>
                                                             </div>
+
                                                         </div>
+                                                        <h4 class="sub-title"></h4>
+                                                        <h4 class="sub-title">Assign Employee to Project</h4>
+                                                        <div class="form-group form-primary form-static-label row">
+                                                            <div class="mt-3 col-md-6">
+                                                                <p style="color: #3380FF;">Available Projects</p>
+                                                                <select
+                                                                        class="selectpicker form-control"
+                                                                        data-style="btn-outline-primary"
+                                                                        data-size="5"
+                                                                        id="project"
+                                                                        name="project">  
+
+                                                                    <option value="">Select project to assign...</option>
+                                                                    <th:block th:each="project_name : ${projects}">
+                                                                        <option th:value="${project_name}"
+                                                                                th:text="${project_name}">
+                                                                        </option>
+                                                                    </th:block>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <h4 class="sub-title"></h4>
                                                         <h4 class="sub-title">Employee Address</h4>
                                                         <div class="form-group form-primary form-static-label row">
                                                             <div class="mt-3 col-md-6">
-                                                                <input type="text" th:field="*{city}" class="form-control"
+                                                                <input id="city" name="city" type="text" class="form-control"
                                                                        placeholder="Cape Town">
                                                                 <span class="form-bar"></span>
-                                                                <label class="float-label">&emsp;&ensp;City/Town</label>
+                                                                <label for="city" class="float-label">&emsp;&ensp;City/Town</label>
                                                             </div>
 
                                                             <div class="mt-3 col-sm-6">
-                                                                <input type="text"  th:field="*{suburb}" class="form-control"
+                                                                <input type="text" name="suburb" class="form-control"
                                                                        placeholder="Khayelitsha">
                                                                 <span class="form-bar"></span>
                                                                 <label class="float-label">&emsp;&ensp;Suburb</label>
@@ -502,13 +525,14 @@
                                                         </div>
                                                         <div class="form-group form-primary form-static-label row">
                                                             <div class="mt-3 col-sm-6">
-                                                                <input type="text"  th:field="*{address}" class="form-control"
+                                                                <input name="employeeAddress" type="text" class="form-control"
                                                                        placeholder="213 Nowhere road">
                                                                 <span class="form-bar"></span>
                                                                 <label class="float-label">&emsp;&ensp;Address</label>
                                                             </div>
                                                             <div class="mt-3 col-md-2">
-                                                                <input type="number" th:field="*{zipCode}" class="form-control"
+                                                                <input name="zipCode" type="number"
+                                                                        class="form-control"
                                                                        placeholder="5480">
                                                                 <span class="form-bar"></span>
                                                                 <label class="float-label">&emsp;&ensp;Zip Code</label>
