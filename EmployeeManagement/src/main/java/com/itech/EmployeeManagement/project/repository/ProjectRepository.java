@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>
@@ -22,5 +21,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
     @Query("SELECT p.projectId FROM Project p WHERE p.projectName = :projectName")
     Long findProjectId(@Param("projectName") String projectName);
 
-    Set<Project> findByProjectId(Long id);
+
 }

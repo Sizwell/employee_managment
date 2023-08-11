@@ -50,17 +50,18 @@ public class EmployeeService {
         {
             throw new IllegalStateException("Email already taken");
         }
-        employeeRepository.saveAndFlush(employee);
-        logger.info("Employee saved to Database");
+
         addressRepository.saveAndFlush(address);
         logger.info("Employee Address saved to Database");
 
+        employeeRepository.saveAndFlush(employee);
+        logger.info("Employee saved to Database");
 
         if (projectName.isEmpty())
         {
             logger.info("No project selected");
         } else {
-            List<Long> employeeId = employeeRepository.findEmployeeId(employee.getName());
+            List<Long> employeeId = employeeRepository.findEmployeeId(employee.getName(), employee.getSurname());
             Long projectId = projectRepository.findProjectId(projectName);
 
             for (int i = 0; i < employeeId.size(); i++) {
@@ -68,7 +69,7 @@ public class EmployeeService {
             }
         }
 
-        return employee;
+        return employeeRepository.saveAndFlush(employee);
     }
 
     //To work on a JPQL solution to add to the joining table (work_items)

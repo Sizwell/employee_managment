@@ -38,8 +38,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e.name FROM Employee e")
     List<String> getAllEmployeeNames();
 
-    @Query("SELECT e.employeeId FROM Employee e WHERE e.name = :name")
-    List<Long> findEmployeeId(@Param("name") String name);
+    @Query("SELECT e.employeeId FROM Employee e WHERE e.name = :name AND e.surname =:surname")
+    List<Long> findEmployeeId(@Param("name") String name, String surname);
 
 //    @Modifying
 //    @Transactional
