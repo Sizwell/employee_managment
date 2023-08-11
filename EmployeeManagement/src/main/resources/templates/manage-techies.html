@@ -716,9 +716,15 @@
                                                                                             class="selectpicker form-control"
                                                                                             data-style="btn-outline-primary"
                                                                                             data-size="5"
+                                                                                            id="myProjects"
                                                                                             name="myProjects">
 
-                                                                                        <option></option>
+                                                                                        <option value="">My Projects...</option>
+                                                                                        <th:block th:each="project_name : ${myProjects_}">
+                                                                                            <option th:value="${project_name}"
+                                                                                                    th:text="${project_name}">
+                                                                                            </option>
+                                                                                        </th:block>
                                                                                     </select>
                                                                                     <span class="form-bar"></span>
                                                                                     <label class="float-label">&emsp;&ensp;My Projects</label>

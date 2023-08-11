@@ -3,6 +3,7 @@ package com.itech.EmployeeManagement.employee.controller;
 import com.itech.EmployeeManagement.address.entity.Address;
 import com.itech.EmployeeManagement.employee.service.EmployeeService;
 import com.itech.EmployeeManagement.employee.entity.Employee;
+import com.itech.EmployeeManagement.project.entity.Project;
 import com.itech.EmployeeManagement.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -132,6 +133,13 @@ public class EmployeeController {
             model.addAttribute("address", streetAddress);
             model.addAttribute("fullAddress", fullAddress);
             model.addAttribute("zip_code", zipCode);
+
+            List<String> employeeProjects = employeeService.getEmployeeProjects(employee_.getEmployeeId());
+
+            for (int i = 0; i < employeeProjects.size(); i++) {
+                logger.info("Employee Projects >: " + employeeProjects.get(i));
+                model.addAttribute("myProjects_", employeeProjects);
+            }
         }
 
                 // return manageTechiesRedirect does not display any db records
@@ -172,7 +180,5 @@ public class EmployeeController {
     public String allTechies(){
         return "all-techies";
     }
-//To move all Project endpoints to Projects Controller
-
 
 }

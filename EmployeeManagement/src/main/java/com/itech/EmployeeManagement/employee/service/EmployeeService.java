@@ -201,19 +201,6 @@ public class EmployeeService {
                 .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
     }
 
-//    public Employee update(Long id, String name, String surname)
-//    {
-//        Employee employee = employeeRepository.findById(id).orElseThrow(()
-//                -> new IllegalArgumentException("Employee with ID " + id + " not found"));
-//
-//        employee.setName(name);
-//        employee.setSurname(surname);
-//
-//
-//        return employeeRepository.save(employee);
-//
-//    }
-
     public List<String> getAllEmployeeNames()
     {
         List<String> employeeList = employeeRepository.getAllEmployeeNames();
@@ -222,8 +209,20 @@ public class EmployeeService {
         for (int i = 0; i < employeeList.size(); i++) {
             logger.info(employeeList.get(i));
         }
-        //logger.info("Employee Names zzzzzzzzzzzz: " + employeeRepository.getAllEmployeeNames());
         return employeeRepository.getAllEmployeeNames();
 
+    }
+
+    /*
+    Below method gets all employees involved in that project
+     */
+//    public List<Employee> getEmployeeProjects(Long projectId)
+//    {
+//        return employeeRepository.findEmployeeProjects(projectId);
+//    }
+
+    public List<String> getEmployeeProjects(Long employeeId)
+    {
+        return employeeRepository.findEmployeeProj(employeeId);
     }
 }
