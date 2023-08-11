@@ -2,6 +2,7 @@ package com.itech.EmployeeManagement.employee.repsitory;
 
 import com.itech.EmployeeManagement.address.entity.Address;
 import com.itech.EmployeeManagement.employee.entity.Employee;
+import com.itech.EmployeeManagement.project.entity.Project;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -46,7 +47,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 //    @Query("INSERT INTO work_items(employee_id, project_id) VALUES (:employeeId, projectId)")
 //    public void insertWorkItem(Long employeeId, Long projectId);
 
-    Set<Employee> findByEmployeeId(Long id);
+    /*
+    Below method gets all employees involved in that project
+     */
+    @Query("SELECT e FROM Employee e JOIN e.projects p WHERE p.projectId = :projectId")
+    List<Employee> findEmployeeProjects(@Param("projectId") Long projectId);
 
-
+    @Query("SELECT DISTINCT p.projectName FROM Project p INNER JOIN p.employees e WHERE e.employeeId =:employeeId")
+    List<String> findEmployeeProj(@Param("employeeId") Long employeeId);
 }
