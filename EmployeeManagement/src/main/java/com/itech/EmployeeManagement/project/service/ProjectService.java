@@ -44,4 +44,9 @@ public class ProjectService {
         }
         return projectRepository.getAllProjectNames();
     }
+
+    public List<String> getProjectsNotRelatedToEmployee(Long employeeId)
+    {
+        return projectRepository.findProjectNotRelatedToEmployee(employeeId);
+    }
 }

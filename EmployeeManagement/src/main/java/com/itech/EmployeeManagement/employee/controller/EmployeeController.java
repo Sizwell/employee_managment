@@ -138,8 +138,16 @@ public class EmployeeController {
 
             for (int i = 0; i < employeeProjects.size(); i++) {
                 logger.info("Employee Projects >: " + employeeProjects.get(i));
-                model.addAttribute("myProjects_", employeeProjects);
             }
+            model.addAttribute("myProjects_", employeeProjects);
+
+            List<String> projects = projectService.getProjectsNotRelatedToEmployee(employee_.getEmployeeId());
+//            for (int i = 0; i < projects.size(); i++) {
+//                logger.info("Projects not assigned to Employee: " + projects.get(i).getProjectName());
+//                model.addAttribute("otherProjects", projects.get(i).getProjectName());
+//            }
+            model.addAttribute("otherProjects", projects);
+
         }
 
                 // return manageTechiesRedirect does not display any db records
@@ -173,6 +181,21 @@ public class EmployeeController {
                 employeeId, name, surname, email, number, occupation,
                 experience, summary, city, suburb, address, zipCode
         );
+        return manageTechiesRedirect;
+    }
+
+    @PostMapping("/find-employee/{id}/update-employee-project")
+    public String updateEmployeeProject(@PathVariable ("id") Long employeeId,
+            @RequestParam(required = false) String projects)
+    {
+        if (projects.isEmpty())
+        {
+            logger.info("No project selected");
+        } else {
+            Long projectId = employeeService.getProjectId(projects);
+            employeeService.assignEmployeeToProject(employeeId, projectId);
+        }
+
         return manageTechiesRedirect;
     }
 

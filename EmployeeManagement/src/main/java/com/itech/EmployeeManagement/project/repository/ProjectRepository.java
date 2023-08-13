@@ -21,5 +21,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
     @Query("SELECT p.projectId FROM Project p WHERE p.projectName = :projectName")
     Long findProjectId(@Param("projectName") String projectName);
 
-
+    @Query("SELECT DISTINCT p.projectName FROM Project p WHERE p NOT IN (SELECT DISTINCT pr FROM Project pr INNER JOIN pr.employees e WHERE e.employeeId = :employeeId)")
+    List<String> findProjectNotRelatedToEmployee(@Param("employeeId") Long employeeId);
 }

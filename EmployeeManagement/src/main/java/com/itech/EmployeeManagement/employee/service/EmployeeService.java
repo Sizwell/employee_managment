@@ -62,7 +62,7 @@ public class EmployeeService {
             logger.info("No project selected");
         } else {
             List<Long> employeeId = employeeRepository.findEmployeeId(employee.getName(), employee.getSurname());
-            Long projectId = projectRepository.findProjectId(projectName);
+            Long projectId = getProjectId(projectName);
 
             for (int i = 0; i < employeeId.size(); i++) {
                 assignEmployeeToProject(employeeId.get(i), projectId);
@@ -77,6 +77,11 @@ public class EmployeeService {
     {
         String sql = "INSERT INTO work_items (employee_id, project_id) VALUES (?, ?)";
         jdbcTemplate.update(sql, employeeId, projectId);
+    }
+
+    public Long getProjectId(String projectName)
+    {
+        return projectRepository.findProjectId(projectName);
     }
 
     public void deleteEmployee(Long employeeId)

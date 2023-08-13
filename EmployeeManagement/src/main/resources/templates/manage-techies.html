@@ -709,7 +709,8 @@
                                                                     </div>
                                                                     <div class="tab-pane" id="messages7" role="tabpanel">
                                                                         <h4 class="m-2 mt-4 sub-title">Employee Projects & Eligable Projects</h4>
-                                                                        <form class="form-material">
+                                                                        <form th:action="@{/find-employee/{id}/update-employee-project(id=${Id})}"
+                                                                              method="POST" class="form-material">
                                                                             <div class="form-group form-primary form-static-label row">
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <select
@@ -719,7 +720,7 @@
                                                                                             id="myProjects"
                                                                                             name="myProjects">
 
-                                                                                        <option value="">My Projects...</option>
+                                                                                        <option selected disabled value="">My projects</option>
                                                                                         <th:block th:each="project_name : ${myProjects_}">
                                                                                             <option th:value="${project_name}"
                                                                                                     th:text="${project_name}">
@@ -727,19 +728,25 @@
                                                                                         </th:block>
                                                                                     </select>
                                                                                     <span class="form-bar"></span>
-                                                                                    <label class="float-label">&emsp;&ensp;My Projects</label>
+                                                                                    <label class="float-label">&emsp;&ensp;Projects Assigned to Employee</label>
                                                                                 </div>
                                                                                 <div class="m-3 mt-2 col-sm-5">
                                                                                     <select
                                                                                             class="selectpicker form-control"
                                                                                             data-style="btn-outline-primary"
                                                                                             data-size="5"
-                                                                                            name="allProjects">
+                                                                                            id="projects"
+                                                                                            name="projects">
 
-                                                                                        <option></option>
+                                                                                        <option selected value="">Other Projects</option>
+                                                                                        <th:block th:each="projects : ${otherProjects}">
+                                                                                            <option th:value="${projects}"
+                                                                                                    th:text="${projects}">
+                                                                                            </option>
+                                                                                        </th:block>
                                                                                     </select>
                                                                                     <span class="form-bar"></span>
-                                                                                    <label class="float-label">&emsp;&ensp;Available Projects</label>
+                                                                                    <label class="float-label">&emsp;&ensp;Available Projects (Not Assigned to Employee)</label>
                                                                                 </div>
                                                                             </div>
                                                                             <h4 class="m-2 mt-4 sub-title"> </h4>
@@ -747,8 +754,16 @@
                                                                                 <div class="m-3 col-md-6">
                                                                                     <!-- Block level buttons with icon -->
                                                                                     <div class="form-group">
-                                                                                        <button class="btn waves-effect waves-light btn-primary btn-outline-primary btn-block"><i class="icofont icofont-save"></i><b>Assign to Project</b></button>
+                                                                                        <button id="assignProject" disabled class="btn waves-effect waves-light btn-primary btn-outline-primary btn-block"><i class="icofont icofont-save"></i><b>Assign to Project</b></button>
                                                                                     </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group form-primary form-static-label row">
+                                                                                <div class="m-3 mt-2 col-sm-5">
+                                                                                    <input type="text" class="form-control" disabled th:hidden="hidden"
+                                                                                           placeholder="John" th:value="${Id} ">
+                                                                                    <span class="form-bar"></span>
+                                                                                    <!--                                                                                        <label class="float-label">&emsp;&ensp;Employee ID</label>-->
                                                                                 </div>
                                                                             </div>
                                                                         </form>
@@ -825,6 +840,19 @@
                         <script th:src="@{/js/vertical-layout.min.js}"></script>
                         <script th:src="@{/js/jquery.mCustomScrollbar.concat.min.js}"></script>
                         <script type="text/javascript" th:src="@{/js/script.js}"></script>
+
+                        <script>
+                            const allProjects = document.getElementById('projects');
+                            const assignButton = document.getElementById('assignProject');
+
+                            allProjects.addEventListener('change', function (){
+                                if (allProjects.value === ''){
+                                    assignButton.disabled = true;
+                                } else {
+                                    assignButton.disabled = false;
+                                }
+                            });
+                        </script>
                     </div>
                 </div>
             </div>

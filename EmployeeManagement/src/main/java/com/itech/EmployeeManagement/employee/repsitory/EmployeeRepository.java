@@ -53,6 +53,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e FROM Employee e JOIN e.projects p WHERE p.projectId = :projectId")
     List<Employee> findEmployeeProjects(@Param("projectId") Long projectId);
 
+    //Query to get All Projects related to the given Employee
     @Query("SELECT DISTINCT p.projectName FROM Project p INNER JOIN p.employees e WHERE e.employeeId =:employeeId")
     List<String> findEmployeeProj(@Param("employeeId") Long employeeId);
+
+    //@Query("SELECT p FROM Project p WHERE p NOT MEMBER OF (SELECT proj FROM Employees e JOIN e.projects proj WHERE e.id = :employeeId)")
+    //@Query("SELECT p FROM Project p LEFT JOIN p.employees e WHERE e.employeeId <> :employeeId OR IS NULL")
+
 }
