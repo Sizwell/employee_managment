@@ -49,4 +49,9 @@ public class ProjectService {
     {
         return projectRepository.findProjectNotRelatedToEmployee(employeeId);
     }
+
+    public List<Project> getProjects()
+    {
+        return projectRepository.findAll();
+    }
 }

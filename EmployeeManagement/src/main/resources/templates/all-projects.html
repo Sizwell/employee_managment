@@ -386,20 +386,18 @@
                         <table class="table table-hover">
                           <thead>
                           <tr>
-                            <th>#</th>
                             <th>Project Name</th>
                             <th>Description</th>
                             <th>Commencement Date</th>
-                            <th>Planned Duration</th>
+                            <th>Planned Duration (Months)</th>
                           </tr>
                           </thead>
                           <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>iTech RESTApi</td>
-                            <td> Dummy description</td>
-                            <td>01-July-2023</td>
-                            <td>6</td>
+                          <tr th:each="projects : ${projects}">
+                            <td th:text="${projects.projectName}"></td>
+                            <td th:text="${projects.description}"></td>
+                            <td th:text="${projects.startDate}"></td>
+                            <td th:text="${projects.duration}"></td>
                           </tr>
                           </tbody>
                         </table>
