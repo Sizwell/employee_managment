@@ -386,7 +386,6 @@
                         <table class="table table-hover">
                           <thead>
                           <tr>
-                            <th>#</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Occupation</th>
@@ -396,14 +395,13 @@
                           </tr>
                           </thead>
                           <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>Software Developer</td>
-                            <td>mark.otto@gmail.com</td>
-                            <td>0712345678</td>
-                            <td>Software Developer</td>
+                          <tr th:each="employees : ${employees}">
+                              <td th:text="${employees.name}"></td>
+                              <td th:text="${employees.surname}"></td>
+                              <td th:text="${employees.occupation}"></td>
+                              <td th:text="${employees.email}"></td>
+                              <td th:text="${employees.number}"></td>
+                              <td th:text="${employees.dob}"></td>
                           </tr>
                           </tbody>
                         </table>

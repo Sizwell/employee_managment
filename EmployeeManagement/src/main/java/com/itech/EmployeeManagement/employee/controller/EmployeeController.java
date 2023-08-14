@@ -63,7 +63,6 @@ public class EmployeeController {
             @ModelAttribute Employee employee,
             @ModelAttribute Address address)
     {
-        //projectList = projectService.getProjectNames();
 
         logger.info("Selected project: " + project);
         if (project == null)
@@ -74,8 +73,6 @@ public class EmployeeController {
             logger.info("Project selected");
             employeeService.addAndAssignEmployeeToProject(employee, address, project);
         }
-
-
         return addEmployeeRedirect;
     }
 
@@ -90,14 +87,6 @@ public class EmployeeController {
     String manageTechies(){
         return manageITechies;
     }
-
-//    @GetMapping("/find-employee")
-//    public String findEmployee(@RequestParam("name") String name, @RequestParam("surname") String surname)
-//    {
-//        Address address = employeeService.getAddressByEmployeeNameAndSurname(name, surname);
-//        System.out.println(address);
-//        return manageITechies;
-//    }
 
     @GetMapping("/find-employee")
     public String findEmployee(@RequestParam("name") String name,
@@ -210,7 +199,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/all-techies")
-    public String allTechies(){
+    public String allTechies(Model model){
+        List<Employee> employeeList = employeeService.getEmployees();
+        model.addAttribute("employees", employeeList);
         return "all-techies";
     }
 
