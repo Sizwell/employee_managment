@@ -40,10 +40,13 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
+    String employeeSaveText = "Employee saved to Database";
     @Transactional
-    public Employee addNewEmployee(Employee employee, Address address, String projectName)
+    public Employee addNewEmployee(Employee employee, Address address)
     {
-        System.out.println(employee);
+        addressRepository.saveAndFlush(address);
+        logger.info("Employee Address saved to Database");
+
         Optional<Employee> employeeOptional = employeeRepository.findEmployeeByEmail(employee.getEmail());
 
         if (employeeOptional.isPresent())
@@ -51,23 +54,46 @@ public class EmployeeService {
             throw new IllegalStateException("Email already taken");
         }
 
+        employeeRepository.saveAndFlush(employee);
+        logger.info(employeeSaveText);
+
+//        if (projectName.isEmpty())
+//        {
+//            logger.info("No project selected");
+//        } else {
+//            List<Long> employeeId = employeeRepository.findEmployeeId(employee.getName(), employee.getSurname());
+//            Long projectId = getProjectId(projectName);
+//
+//            for (int i = 0; i < employeeId.size(); i++) {
+//                assignEmployeeToProject(employeeId.get(i), projectId);
+//            }
+//        }
+
+        return employeeRepository.saveAndFlush(employee);
+    }
+
+    public Employee addAndAssignEmployeeToProject(Employee employee, Address address, String projectName)
+    {
         addressRepository.saveAndFlush(address);
         logger.info("Employee Address saved to Database");
 
-        employeeRepository.saveAndFlush(employee);
-        logger.info("Employee saved to Database");
+        Optional<Employee> employeeOptional = employeeRepository.findEmployeeByEmail(employee.getEmail());
 
-        if (projectName.isEmpty())
+        if (employeeOptional.isPresent())
         {
-            logger.info("No project selected");
-        } else {
-            List<Long> employeeId = employeeRepository.findEmployeeId(employee.getName(), employee.getSurname());
-            Long projectId = getProjectId(projectName);
-
-            for (int i = 0; i < employeeId.size(); i++) {
-                assignEmployeeToProject(employeeId.get(i), projectId);
-            }
+            throw new IllegalStateException("Email already taken");
         }
+
+        employeeRepository.saveAndFlush(employee);
+        logger.info(employeeSaveText);
+
+        List<Long> employeeId = employeeRepository.findEmployeeId(employee.getName(), employee.getSurname());
+        Long projectId = getProjectId(projectName);
+
+        for (int i = 0; i < employeeId.size(); i++) {
+            assignEmployeeToProject(employeeId.get(i), projectId);
+        }
+        logger.info("Employee saved to Database");
 
         return employeeRepository.saveAndFlush(employee);
     }
@@ -81,6 +107,10 @@ public class EmployeeService {
 
     public Long getProjectId(String projectName)
     {
+        if (projectName.isEmpty())
+        {
+            logger.info("No project selected");
+        }
         return projectRepository.findProjectId(projectName);
     }
 
