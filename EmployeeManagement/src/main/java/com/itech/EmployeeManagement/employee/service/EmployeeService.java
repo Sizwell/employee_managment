@@ -57,18 +57,6 @@ public class EmployeeService {
         employeeRepository.saveAndFlush(employee);
         logger.info(employeeSaveText);
 
-//        if (projectName.isEmpty())
-//        {
-//            logger.info("No project selected");
-//        } else {
-//            List<Long> employeeId = employeeRepository.findEmployeeId(employee.getName(), employee.getSurname());
-//            Long projectId = getProjectId(projectName);
-//
-//            for (int i = 0; i < employeeId.size(); i++) {
-//                assignEmployeeToProject(employeeId.get(i), projectId);
-//            }
-//        }
-
         return employeeRepository.saveAndFlush(employee);
     }
 
