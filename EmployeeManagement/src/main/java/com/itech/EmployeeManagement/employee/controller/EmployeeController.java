@@ -59,13 +59,23 @@ public class EmployeeController {
 
     @PostMapping("/add-employee")
     public String addEmployees(
-            @RequestParam("project") String project,
+            @RequestParam(required = false) String project,
             @ModelAttribute Employee employee,
             @ModelAttribute Address address)
     {
         //projectList = projectService.getProjectNames();
+
         logger.info("Selected project: " + project);
-        employeeService.addNewEmployee(employee, address, project);
+        if (project == null)
+        {
+            logger.info("No project selected");
+            employeeService.addNewEmployee(employee, address);
+        } else {
+            logger.info("Project selected");
+            employeeService.addAndAssignEmployeeToProject(employee, address, project);
+        }
+
+
         return addEmployeeRedirect;
     }
 
