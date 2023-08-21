@@ -266,7 +266,7 @@
             </ul>
             <div class="pcoded-navigation-label" data-i18n="nav.category.forms">iTech Force</div>
             <ul class="pcoded-item pcoded-left-item">
-              <li class="pcoded-hasmenu pcoded-trigger">
+              <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                   <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
                   <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">iTech Force</span>
@@ -302,7 +302,7 @@
 
             <div class="pcoded-navigation-label" data-i18n="nav.category.forms">iTech Play Grounds</div>
             <ul class="pcoded-item pcoded-left-item">
-              <li class="pcoded-hasmenu  active">
+              <li class="pcoded-hasmenu active pcoded-trigger">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                   <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
                   <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Projects</span>
@@ -384,10 +384,11 @@
                               <div class="card quater-card">
                                 <div class="card-block">
                                   <h4 class="sub-title">Search Project</h4>
-                                  <form class="form-material">
+                                  <form th:action="@{/find-project}" method="GET" class="form-material">
                                     <div class="form-group form-primary form-static-label row">
                                       <div class="mt-3 col-sm-12">
                                         <input type="text" class="form-control"
+                                               name="projectName"
                                                placeholder="RESTApi for iTech">
                                         <span class="form-bar"></span>
                                         <label class="float-label">&emsp;&ensp;Project Name</label>
@@ -446,36 +447,41 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content card-block">
                                   <div class="tab-pane active" id="home7" role="tabpanel">
-                                    <h4 class="m-2 mt-3 sub-title">About Project</h4>
-                                    <p class="m-2">1.asdas This is Photoshop's version of Lorem IpThis is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean mas Cum sociis natoque penatibus et magnis dis.....</p>
+                                    <h4 class="m-2 mt-3 sub-title">Project Summary</h4>
+                                    <p class="m-4" th:name="description" th:text="${description}"></p>
 
                                     <h4 class="m-2 mt-4 sub-title">Project Details</h4>
                                     <div class="form-group form-primary form-static-label row">
-                                      <div class="m-2 mt-3 col-sm-12">
-                                        <span class="form-bar"></span>
-                                        <dt class="col-sm-3">Project Name</dt>
-                                        <dd></dd>
+                                      <div class="m-2 col-lg-6 col-md-4">
+                                        <span class="col-sm-8"><b>Project Name</b></span>
+<!--                                        <dt class="col-sm-3">Project Name</dt>-->
+<!--                                        <dd></dd>-->
+                                      </div>
+                                      <div class="m-2 col-lg-5 col-md-4">
+                                        <div class="col-sm-8" th:name="projectName" th:text="${projectName}"></div>
                                       </div>
                                     </div>
                                     <div class="form-group form-primary form-static-label row">
-                                      <div class="m-2 mt-3 col-sm-12">
-                                        <span class="form-bar"></span>
-                                        <dt class="col-sm-3">Start Date</dt>
-                                        <dd></dd>
+                                      <div class="m-2 col-lg-6 col-md-4">
+                                        <span class="col-sm-8"><b>Start Date</b></span>
+                                      </div>
+                                      <div class="m-2 col-lg-5 col-md-4">
+                                        <div class="col-sm-8" th:name="startDate" th:text="${startDate}"></div>
                                       </div>
                                     </div>
                                     <div class="form-group form-primary form-static-label row">
-                                      <div class="m-2 mt-3 col-sm-12">
-                                        <span class="form-bar"></span>
-                                        <dt class="col-sm-3">Planned Duration</dt>
-                                        <dd></dd>
+                                      <div class="m-2 col-lg-6 col-md-4">
+                                        <span class="col-sm-8"><b>Planned Duration</b></span>
+                                      </div>
+                                      <div class="m-2 col-lg-5 col-md-4">
+                                        <div class="col-sm-8" th:name="duration" th:text="${duration}"></div>
                                       </div>
                                     </div>
                                     <div class="form-group form-primary form-static-label row">
-                                      <div class="m-2 mt-3 col-sm-12">
-                                        <span class="form-bar"></span>
-                                        <dt class="col-sm-3">No. of Team members</dt>
-                                        <dd></dd>
+                                      <div class="m-2 col-lg-6 col-md-4">
+                                        <span class="col-sm-8"><b>No. of Team members</b></span>                                      </div>
+                                      <div class="m-2 col-lg-5 col-md-4">
+                                        <div class="col-sm-8" th:name="numberOfMembers" th:text="${numberOfMembers}"></div>
                                       </div>
                                     </div>
 
@@ -490,12 +496,16 @@
                                       <div class="form-group form-primary form-static-label row">
                                         <div class="m-3 mt-2 col-sm-5">
                                           <input type="text" class="form-control"
+                                                 name="projectName"
+                                                 th:value="${projectName}"
                                                  placeholder="iTech RESTApi project">
                                           <span class="form-bar"></span>
                                           <label class="float-label">&emsp;&ensp;Project Name</label>
                                         </div>
                                         <div class="m-3 mt-2 col-sm-5">
-                                          <input type="date" name="footer-email" class="form-control" required="">
+                                          <input type="date" name="startDate"
+                                                 value="${startDate}"
+                                                 class="form-control" required>
                                           <span class="form-bar"></span>
                                           <label class="float-label">&emsp;&ensp;Commencement Date</label>
                                         </div>
@@ -509,7 +519,7 @@
                                                   data-size="5"
                                                   name="ethnicity" required>
 
-                                            <option selected disabled>Project Duration in Months</option>
+                                            <option selected disabled>&emsp;&ensp;Project Duration in Months</option>
                                             <option>1</option>
                                             <option>3</option>
                                             <option>6</option>
@@ -527,6 +537,17 @@
 
                                             <option></option>
                                           </select>
+                                        </div>
+                                      </div>
+                                      <div class="form-group form-primary form-static-label row">
+                                        <div class="m-3 mt-2 col-sm-10">
+                                          <textarea  class="mt-3 form-control"
+                                                     name="description"
+                                                     required
+                                                     placeholder="Awesomeness Project"
+                                                     th:text="${description}"></textarea>
+                                          <span class="form-bar"></span>
+                                          <label class="float-label">&emsp;&ensp;Project Description</label>
                                         </div>
                                       </div>
                                       <h4 class="m-2 mt-4 sub-title"></h4>

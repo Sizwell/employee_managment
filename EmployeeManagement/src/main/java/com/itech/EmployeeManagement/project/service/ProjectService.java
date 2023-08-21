@@ -25,8 +25,8 @@ public class ProjectService {
 
     public void addProject(Project project)
     {
-        Optional<Project> projectOptional = projectRepository.findProjectByProjectName(project.getProjectName());
-        if (projectOptional.isPresent())
+        List<Project> projectOptional = projectRepository.findProjectByProjectName(project.getProjectName());
+        if (!projectOptional.isEmpty())
         {
             logger.info("Project with name " + project.getProjectName() + " already exists");
             throw new IllegalStateException("Project with name " + project.getProjectName() + " already exists");
@@ -53,5 +53,10 @@ public class ProjectService {
     public List<Project> getProjects()
     {
         return projectRepository.findAll();
+    }
+
+    public List<Project> searchProject(String projectName) {
+        logger.info("P Name: " + projectName);
+        return projectRepository.findProjectName(projectName);
     }
 }

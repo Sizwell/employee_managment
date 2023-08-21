@@ -29,6 +29,20 @@
   <link rel="stylesheet" type="text/css" th:href="@{/icon/themify-icons/themify-icons.css}">
   <!-- Font Awesome -->
   <link rel="stylesheet" type="text/css" th:href="@{/icon/font-awesome/css/font-awesome.min.css}">
+  <!-- Notification.css -->
+  <link rel="stylesheet" type="text/css" th:href="@{/pages/notification/notification.css}">
+  <!-- Animate.css -->
+  <link rel="stylesheet" type="text/css" th:href="@{/css/animate.css/css/animate.css}">
+  <!-- Favicon icon -->
+  <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+  <!-- Google font-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+  <!-- ico font -->
+  <link rel="stylesheet" type="text/css" th:href="@{/icon/icofont/css/icofont.css}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" type="text/css" th:href="@{/icon/font-awesome/css/font-awesome.min.css}">
+  <!-- Style.css -->
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   <!-- scrollbar.css -->
   <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.mCustomScrollbar.css}">
   <!-- am chart export.css -->
@@ -266,7 +280,7 @@
             </ul>
             <div class="pcoded-navigation-label" data-i18n="nav.category.forms">iTech Force</div>
             <ul class="pcoded-item pcoded-left-item">
-              <li class="pcoded-hasmenu pcoded-trigger">
+              <li class="pcoded-hasmenu">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                   <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
                   <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">iTech Force</span>
@@ -302,7 +316,7 @@
 
             <div class="pcoded-navigation-label" data-i18n="nav.category.forms">iTech Play Grounds</div>
             <ul class="pcoded-item pcoded-left-item">
-              <li class="pcoded-hasmenu active">
+              <li class="pcoded-hasmenu active pcoded-trigger">
                 <a href="javascript:void(0)" class="waves-effect waves-dark">
                   <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
                   <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Projects</span>
@@ -316,7 +330,7 @@
                       <span class="pcoded-mcaret"></span>
                     </a>
                   </li>
-                  <li class=" ">
+                  <li class="">
                     <a href="project-overview" class="waves-effect waves-dark">
                       <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                       <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Manage iTech Projects</span>
@@ -324,7 +338,7 @@
                     </a>
                   </li>
                   <li class=" ">
-                    <a href="sample-page.html" class="waves-effect waves-dark">
+                    <a href="all-projects" class="waves-effect waves-dark">
                       <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                       <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">All iTech Projects</span>
                       <span class="pcoded-mcaret"></span>
@@ -332,6 +346,7 @@
                   </li>
                 </ul>
               </li>
+
             </ul>
           </div>
         </nav>
@@ -377,6 +392,9 @@
                         </div>
                         <div class="card-block">
                           <h4 class="sub-title">Project Info</h4>
+                          <div th:if="${successMessage}" class="alert alert-success">
+                            <p th:text="${successMessage}"></p>
+                          </div>
                           <form th:action="@{/add-project}" th:object="${project}" method="POST" class="form-material">
 
                             <div class="form-group form-primary form-static-label row">
@@ -447,7 +465,7 @@
                                 <!-- Block level buttons with icon -->
                                 <div class="form-group">
                                   <button class="btn waves-effect waves-light btn-primary btn-outline-primary btn-block">
-                                    <i class="icofont icofont-save"></i><b>Create Project</b></button>
+                                    <i class="icofont icofont-save"></i><b>Save Project</b></button>
                                 </div>
                               </div>
                             </div>
@@ -481,6 +499,17 @@
             <script th:src="@{/js/vertical-layout.min.js}"></script>
             <script th:src="@{/js/jquery.mCustomScrollbar.concat.min.js}"></script>
             <script type="text/javascript" th:src="@{/js/script.js}"></script>
+            <!-- notification js -->
+            <script type="text/javascript" th:src="@{/js/bootstrap-growl.min.js}"></script>
+            <script type="text/javascript" th:src="@{/pages/notification/notification.js}"></script>
+            <script th:src="@{/js/pcoded.min.js}"></script>
+<!--            <script th:src="@{/js/vertical-layout.min.js}"></script>-->
+            <script th:src="@{/js/jquery.mCustomScrollbar.concat.min.js}"></script>
+            <!-- waves js -->
+            <script th:src="@{/pages/waves/js/waves.min.js}"></script>
+            <!-- waves js -->
+            <script th:src="@{/pages/waves/js/waves.min.js}"></script>
+
           </div>
         </div>
       </div>

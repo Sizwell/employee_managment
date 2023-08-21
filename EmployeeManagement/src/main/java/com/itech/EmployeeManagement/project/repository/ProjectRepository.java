@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>
 {
-    Optional<Project> findProjectByProjectName(@Param("projectName") String projectName);
+    List<Project> findProjectByProjectName(@Param("projectName") String projectName);
 
     //Return All Project Names
     @Query("SELECT p.projectName FROM Project p")
@@ -23,4 +23,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
 
     @Query("SELECT DISTINCT p.projectName FROM Project p WHERE p NOT IN (SELECT DISTINCT pr FROM Project pr INNER JOIN pr.employees e WHERE e.employeeId = :employeeId)")
     List<String> findProjectNotRelatedToEmployee(@Param("employeeId") Long employeeId);
+
+    @Query("SELECT p FROM Project p WHERE p.projectName = :projectName")
+    List<Project> findProjectName (@Param("projectName") String projectName);
 }

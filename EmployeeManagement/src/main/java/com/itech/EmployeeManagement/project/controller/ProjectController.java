@@ -5,14 +5,18 @@ import com.itech.EmployeeManagement.employee.service.EmployeeService;
 import com.itech.EmployeeManagement.project.entity.Project;
 import com.itech.EmployeeManagement.project.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Controller
@@ -55,5 +59,26 @@ public class ProjectController {
         List<Project> projectList = projectService.getProjects();
         model.addAttribute("projects", projectList);
         return "all-projects";
+    }
+
+    @GetMapping("/find-project")
+    public String findProject(@RequestParam("projectName") String projectName, Model model)
+    {
+        logger.info("Project name " + projectName);
+        List<Project> projectList = projectService.searchProject(projectName);
+
+        for (int i = 0; i < projectList.size(); i++) {
+            logger.info("Project Details: " + projectList.get(i).getProjectName() + projectList.get(i).getDescription());
+        }
+
+        for (Project project: projectList) {
+            model.addAttribute("projectName", project.getProjectName());
+            model.addAttribute("startDate", project.getStartDate());
+            model.addAttribute("duration", project.getDuration());
+            model.addAttribute("description", project.getDescription());
+            model.addAttribute("numberOfMembers", 2);
+        }
+
+        return "project-overview";
     }
 }
