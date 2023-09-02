@@ -1,5 +1,6 @@
 package com.itech.EmployeeManagement.project.repository;
 
+import com.itech.EmployeeManagement.employee.entity.Employee;
 import com.itech.EmployeeManagement.project.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +27,13 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
 
     @Query("SELECT p FROM Project p WHERE p.projectName = :projectName")
     List<Project> findProjectName (@Param("projectName") String projectName);
+
+    @Query("SELECT COUNT (e) FROM Employee e JOIN e.projects p WHERE p.projectName = :projectName")
+    String countEmployeesByProject (@Param("projectName") String projectName);
+
+    @Query("SELECT p.employees FROM Project p WHERE p.projectName = :projectName")
+    List<Employee> findEmployeesByProject(@Param("projectName") String projectName);
+
+    @Query("SELECT e FROM Employee e WHERE e NOT IN (SELECT emp FROM Employee emp JOIN emp.projects p WHERE p.projectName = :projectName)")
+    List<Employee> findEmployeesNotInProject(@Param("projectName") String projectName);
 }

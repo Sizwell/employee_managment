@@ -1,0 +1,14 @@
+
+
+java:S4165"hRemove this useless assignment; "employeeId" already holds the assigned value along all execution paths.(±ÿ›ƒ
+h	java:S116"SRename this field "IdNumber" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘„¢Ã
+W	java:S107H"BConstructor has 12 parameters, which is greater than 7 authorized.(é‘Ô 
+\	java:S107n"BConstructor has 11 parameters, which is greater than 7 authorized.(¯ƒüÿÿÿÿ
+P	java:S125,"<This block of commented-out lines of code should be removed.(–ò‘'
+V	java:S125h"<This block of commented-out lines of code should be removed.(§´šºşÿÿÿÿ
+W	java:S125‹"<This block of commented-out lines of code should be removed.(§´šºşÿÿÿÿ
+U
+java:S1854">Remove this useless assignment to local variable "employeeId".(±ÿ›ƒ
+F
+java:S1656"/Remove or correct this useless self-assignment.(±ÿ›ƒ
+R	java:S125ø"<This block of commented-out lines of code should be removed.(Î á

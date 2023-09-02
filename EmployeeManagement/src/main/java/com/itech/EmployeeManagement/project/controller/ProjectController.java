@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -64,21 +61,50 @@ public class ProjectController {
     @GetMapping("/find-project")
     public String findProject(@RequestParam("projectName") String projectName, Model model)
     {
-        logger.info("Project name " + projectName);
         List<Project> projectList = projectService.searchProject(projectName);
+        String totalEmployees = projectService.countProjects(projectName);
+        List<Employee> projectTeam = projectService.getProjectTeam(projectName);
+        List<Employee> techTeam = projectService.techTeam(projectName);
+        logger.info("Project Team: " + projectTeam);
 
-        for (int i = 0; i < projectList.size(); i++) {
-            logger.info("Project Details: " + projectList.get(i).getProjectName() + projectList.get(i).getDescription());
+        String memberName;
+        String otherMembers;
+
+        for (int i = 0; i < projectTeam.size(); i++) {
+            memberName = projectTeam.get(i).getName();
+            model.addAttribute("team", memberName);
         }
 
+        for (Employee employee : techTeam) {
+            otherMembers = employee.getName();
+            model.addAttribute("techTeam", otherMembers);
+        }
+
+//        for (int i = 0; i < projectList.size(); i++) {
+//            logger.info("Project Details: " + projectList.get(i).getProjectName() + projectList.get(i).getDescription());
+//        }
+
         for (Project project: projectList) {
+            model.addAttribute("Id", project.getProjectId());
             model.addAttribute("projectName", project.getProjectName());
             model.addAttribute("startDate", project.getStartDate());
             model.addAttribute("duration", project.getDuration());
             model.addAttribute("description", project.getDescription());
-            model.addAttribute("numberOfMembers", 2);
+            model.addAttribute("numberOfMembers", totalEmployees);
         }
 
         return "project-overview";
     }
+
+    @PostMapping("/update-project/{id}/")
+    public String updateProject(@PathVariable ("id") Long projectId,
+                                @RequestParam(required = false) String projectName,
+                                @RequestParam(required = false) Integer duration,
+                                @RequestParam(required = false) String description)
+    {
+
+        projectService.updateProject(projectId, projectName, duration, description);
+        return "project-overview";
+    }
+
 }

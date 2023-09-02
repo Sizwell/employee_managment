@@ -496,7 +496,7 @@
                                   <div class="tab-pane" id="profile7" role="tabpanel">
                                     <h4 class="m-2 mt-4 sub-title">Modify Project Details</h4>
 
-                                    <form class="form-material">
+                                    <form th:action="@{/update-project/{id}/(id=${Id})}" method="POST" class="form-material">
                                       <div class="form-group form-primary form-static-label row">
                                         <div class="m-3 mt-2 col-sm-5">
                                           <input type="text" class="form-control"
@@ -512,7 +512,7 @@
                                                   class="selectpicker form-control"
                                                   data-style="btn-outline-primary"
                                                   data-size="5"
-                                                  name="ethnicity" required>
+                                                  name="duration" required>
 
                                             <option selected disabled>&emsp;&ensp;Project Duration in Months</option>
                                             <option>1</option>
@@ -549,6 +549,14 @@
                                             <button class="btn waves-effect waves-light btn-primary btn-outline-primary btn-block"><i class="icofont icofont-save"></i><b>Update Project</b></button>
                                           </div>
                                         </div>
+                                        <div class="form-group form-primary form-static-label row">
+                                          <div class="m-3 mt-2 col-sm-5">
+                                            <input type="text" class="form-control" disabled th:hidden="hidden"
+                                                   placeholder="John" th:value="${Id} ">
+                                            <span class="form-bar"></span>
+                                            <!--                                                                                        <label class="float-label">&emsp;&ensp;Employee ID</label>-->
+                                          </div>
+                                        </div>
                                       </div>
                                     </form>
                                   </div>
@@ -561,9 +569,12 @@
                                                 class="selectpicker form-control"
                                                 data-style="btn-outline-primary"
                                                 data-size="5"
-                                                name="ethnicity" required>
+                                                name="team" required>
 
                                           <option selected disabled>&emsp;&ensp;Project Team</option>
+                                          <th:block th:each="name : ${team}">
+                                            <option th:value="${name}" th:text="${name}"></option>
+                                          </th:block>
                                         </select>
                                       </div>
                                       <div class="m-3 mt-2 col-sm-5">
@@ -572,9 +583,12 @@
                                                 class="selectpicker form-control"
                                                 data-style="btn-outline-primary"
                                                 data-size="5"
-                                                name="team">
+                                                name="otherMembers">
 
                                           <option selected disabled>iTech Bomb Squad</option>
+                                          <th:block th:each="otherMembers : ${techTeam}">
+                                            <option th:value="${otherMembers}" th:text="${otherMembers}"></option>
+                                          </th:block>
                                         </select>
                                       </div>
                                     </div>

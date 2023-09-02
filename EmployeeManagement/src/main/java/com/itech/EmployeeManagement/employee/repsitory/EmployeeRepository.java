@@ -60,4 +60,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     //@Query("SELECT p FROM Project p WHERE p NOT MEMBER OF (SELECT proj FROM Employees e JOIN e.projects proj WHERE e.id = :employeeId)")
     //@Query("SELECT p FROM Project p LEFT JOIN p.employees e WHERE e.employeeId <> :employeeId OR IS NULL")
 
+
 }

@@ -1,10 +1,13 @@
 package com.itech.EmployeeManagement.project.service;
 
+import com.itech.EmployeeManagement.employee.entity.Employee;
 import com.itech.EmployeeManagement.project.entity.Project;
 import com.itech.EmployeeManagement.project.repository.ProjectRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -56,7 +59,43 @@ public class ProjectService {
     }
 
     public List<Project> searchProject(String projectName) {
-        logger.info("P Name: " + projectName);
         return projectRepository.findProjectName(projectName);
+    }
+
+    public String countProjects(String projectName)
+    {
+        return projectRepository.countEmployeesByProject(projectName);
+    }
+
+    public List<Employee> getProjectTeam(String projectName)
+    {
+        return projectRepository.findEmployeesByProject(projectName);
+    }
+
+    public List<Employee> techTeam(String projectName)
+    {
+        return projectRepository.findEmployeesNotInProject(projectName);
+    }
+
+    @Transactional
+    public void updateProject(Long id, String projectName, Integer duration, String description)
+    {
+        Project project = projectRepository.findById(id).orElseThrow(()-> new IllegalStateException
+                ("Project with ID " + id + " does not exist."));
+
+        if (projectName != null && projectName.length() > 0 && !Objects.equals(project.getProjectName(), projectName))
+        {
+            project.setProjectName(projectName);
+        }
+
+        if (duration != 0 && duration != project.getDuration())
+        {
+            project.setDuration(duration);
+        }
+
+        if (description != null && description.length() > 0 && !Objects.equals(project.getDescription(), description))
+        {
+            project.setDescription(description);
+        }
     }
 }

@@ -119,7 +119,6 @@ public class EmployeeService {
 
     public List<Employee> searchEmployeeByNameAndSurname(String name, String surname)
     {
-        System.out.println(name);
         return employeeRepository.findByNameAndSurname(name, surname);
     }
 
@@ -140,7 +139,7 @@ public class EmployeeService {
     )
     {
         Employee employee = employeeRepository.findById(id).orElseThrow(() -> new IllegalStateException
-                ("Employee with ID " + id + "does not exist"));
+                ("Employee with ID " + id + " does not exist"));
         Address employeeAddress = employeeRepository.findById(id).orElseThrow(() -> new IllegalStateException
                         ("Employee Address for Employee with ID " + id + " not found")).getAddresses();
         //!Objects.equals is to check if the name provided is not the same as Current one
@@ -190,9 +189,6 @@ public class EmployeeService {
             employee.setSummary(summary);
         }
 
-//        List<Address> addresses = getAddressByEmployeeNameAndSurname(name, surname);
-
-
         if (city != null && city.length() > 0 && !Objects.equals(employeeAddress.getCity(), city))
         {
             employeeAddress.setCity(city);
@@ -227,7 +223,6 @@ public class EmployeeService {
     public List<String> getAllEmployeeNames()
     {
         List<String> employeeList = employeeRepository.getAllEmployeeNames();
-        logger.info("Employee Names: " + employeeList.toString());
 
         for (int i = 0; i < employeeList.size(); i++) {
             logger.info(employeeList.get(i));
@@ -236,13 +231,6 @@ public class EmployeeService {
 
     }
 
-    /*
-    Below method gets all employees involved in that project
-     */
-//    public List<Employee> getEmployeeProjects(Long projectId)
-//    {
-//        return employeeRepository.findEmployeeProjects(projectId);
-//    }
 
     public List<String> getEmployeeProjects(Long employeeId)
     {
